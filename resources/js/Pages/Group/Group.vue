@@ -576,8 +576,16 @@ button:focus {
         margin-right: 0.5vh;
     }
 
+    #group-header {
+        padding: 1vh 1vh 0 1vh;
+    }
+
+    .chat-link {
+        font-size: 1rem;
+    }
+
     #input-group {
-        padding: 2% 2% 4% 2%; /*Unten mehr, damit bei Handys mit abgerundeten Ecken nix abgeschnitten wird*/
+        padding: 2%; /*Unten mehr, damit bei Handys mit abgerundeten Ecken nix abgeschnitten wird*/
     }
 
     .special-messages-container {

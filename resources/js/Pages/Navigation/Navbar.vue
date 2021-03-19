@@ -120,7 +120,11 @@ div.title {
 }
 .arrow {
     width: 16%;
+    aspect-ratio: 1/1;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 @media (max-width: 576px) {
     #navbar {

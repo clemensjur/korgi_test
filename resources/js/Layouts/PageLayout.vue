@@ -48,7 +48,7 @@ export default {
     top: 0;
     position: fixed;
 
-    z-index: 1;
+    z-index: 50;
     width: 100vw;
     height: 100vh;
     backdrop-filter: blur(2px) brightness(70%) opacity(100);
