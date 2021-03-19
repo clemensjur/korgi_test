@@ -83,6 +83,7 @@ export default {
 </script>
 
 <style scoped>
+
 #chat {
     background-color: var(--background-color-alternate);
     width: 100%;

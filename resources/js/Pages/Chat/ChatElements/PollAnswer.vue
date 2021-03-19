@@ -81,6 +81,7 @@ export default {
 </script>
 
 <style scoped>
+
 .right .answer {
     background-color: var(--background-color);
 }

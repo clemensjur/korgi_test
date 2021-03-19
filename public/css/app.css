@@ -32783,6 +32783,16 @@ html.darkmode {
   --input-focus-color: #292b2f;
 }
 
+*::-moz-selection {
+  background: #ffcb8e;
+  color: #ffffff;
+}
+
+*::selection {
+  background: #ffcb8e;
+  color: #ffffff;
+}
+
 .headline {
   color: var(--font-color-light);
   font-size: 1.8rem;

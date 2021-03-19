@@ -51,6 +51,13 @@ export default {
 </script>
 
 <style scoped>
+
+
+.own div::selection {
+    background: var(--primary);
+    color: #ffffff;
+}
+
 .message {
     max-width: 80%;
     min-width: 30%;

@@ -114,35 +114,28 @@
                                 class="btn primary-background"
                                 v-on:click="pollBus.$emit('open')"
                             >
-                                <p>Umfrage starten</p>
+                                <p>Umfrage</p>
                                 <i class="far fa-calendar-alt"></i>
                             </div>
                             <div
                                 class="btn primary-background"
                                 v-on:click="eventAnnouncementBus.$emit('open')"
                             >
-                                <p>Termin bekannt geben</p>
-                                <i class="far fa-calendar-alt"></i>
-                            </div>
-                            <div
-                                class="btn primary-background"
-                                v-on:click="dateVotingBus.$emit('open')"
-                            >
-                                <p>Terminumfrage starten</p>
+                                <p>Termin</p>
                                 <i class="far fa-calendar-alt"></i>
                             </div>
                             <div
                                 class="btn primary-background"
                                 v-on:click="importantMessageBus.$emit('open')"
                             >
-                                <p>Wichtige Nachricht schreiben</p>
+                                <p>Wichtige Nachricht</p>
                                 <i class="far fa-calendar-alt"/>
                             </div>
                             <div
                                 class="btn primary-background"
                                 v-on:click="fileInputBus.$emit('open')"
                             >
-                                <p>Wichtige Datei senden</p>
+                                <p>Wichtige Datei</p>
                                 <i class="fas fa-paperclip"/>
                             </div>
                         </div>
@@ -541,7 +534,7 @@ button:focus {
     background-color: var(--background-color);
     margin-bottom: 2vh;
     padding: 1vh;
-    height: 19rem;
+    height: 15rem;
     position: absolute;
     bottom: 100%;
     border-radius: 1rem;
@@ -567,6 +560,16 @@ button:focus {
 .fade-box-enter, .fade-box-leave-to /* .fade-leave-active below version 2.1.8 */
 {
     opacity: 0;
+}
+
+.special-messages-container i {
+    margin-left: 1rem;
+}
+
+@media (max-width: 1200px) {
+    #group-content.active {
+        width: 100vw;
+    }
 }
 
 @media (max-width: 576px) {

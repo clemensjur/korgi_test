@@ -322,7 +322,7 @@ export default {
 
 @media (max-width: 1200px) {
   #navigation {
-    width: 35vw;
+    width: 30vw;
   }
 }
 

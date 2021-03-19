@@ -90,6 +90,7 @@ export default {
 </script>
 
 <style scoped>
+
 .chat-element {
     display: flex;
     flex-direction: column;

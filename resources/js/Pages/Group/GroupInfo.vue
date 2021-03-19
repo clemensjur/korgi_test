@@ -293,7 +293,7 @@ export default {
 @media (max-width: 1200px) {
     #group-info.active {
         position: absolute;
-        width: 65vw;
+        width: 70vw;
         height: 100%;
         padding: 2vh;
         z-index: 35;

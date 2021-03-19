@@ -4,7 +4,7 @@
         <div class="arrow" v-if="showArrow">
             <inertia-link :href="route('groups.show')"><i class="fas fa-arrow-left"></i></inertia-link>
         </div>
-        <div class="title" @click="toggleGroupInfo">{{currentPage}}</div>
+        <div class="title no-select" @click="toggleGroupInfo">{{currentPage}}</div>
         <a id="burger" href="#" @click="toggleMenu" v-bind:class="{active: isActive}"><span/></a>
     </div>
 </template>
@@ -126,6 +126,7 @@ div.title {
     justify-content: center;
     align-items: center;
 }
+
 @media (max-width: 576px) {
     #navbar {
         display: flex;

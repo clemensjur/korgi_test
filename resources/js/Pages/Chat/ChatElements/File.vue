@@ -57,6 +57,13 @@ export default {
 </script>
 
 <style scoped>
+
+
+.right div::selection {
+    background: var(--primary);
+    color: #ffffff;
+}
+
 .file-element {
     max-width: 80%;
     min-width: 30%;

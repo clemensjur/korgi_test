@@ -72,6 +72,12 @@ main {
     pointer-events: none;
 }
 
+@media (max-width: 1200px) {
+    main {
+        width: 70vw;
+    }
+}
+
 @media (max-width: 576px) {
     #wrapper {
         flex-direction: column;

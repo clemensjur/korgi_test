@@ -76,6 +76,12 @@ i {
     margin-left: 1rem;
 }
 
+@media (max-width: 1200px) {
+    #context-menu {
+        top: 18%;
+    }
+}
+
 @media (max-width: 576px) {
     #context-menu {
         right: 14%;

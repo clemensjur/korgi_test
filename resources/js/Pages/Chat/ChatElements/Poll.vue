@@ -53,6 +53,13 @@ export default {
 </script>
 
 <style scoped>
+
+
+.own div::selection {
+    background: var(--primary);
+    color: #ffffff;
+}
+
 .message {
   width: 80%;
   background-color: var(--message-color);
