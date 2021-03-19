@@ -3,7 +3,7 @@
         <store-initializer :user="user" :groups="groups"/>
         <navigation :bus="bus" :user="$page.props.user.name"/>
         <navbar :bus="bus"/>
-        <main @click.prevent="isActive ? bus.$emit('toggleMenu') : null" :class="{'blurred': isActive}">
+        <main @click="isActive ? bus.$emit('toggleMenu') : null" :class="{'blurred': isActive}">
             <div class="blur"></div>
             <slot></slot>
         </main>
