@@ -42,17 +42,20 @@
         </div>
         <div id="group-info-members">
             <div class="section-header">Mitglieder</div>
-            <member v-for="member in showAll ? group.users : group.users.slice(0, 5)" :key="member.id" :member="member"></member>
-            <div class="button-container" v-if="group.users.length > 5">
-                <div class="btn secondary-background" v-if="!showAll" @click="showAll=true">
-                    <p>{{ group.users.length - 5 }} weitere</p>
-                    <i class="fas fa-angle-down"/>
-                </div>
-                <div class="btn secondary-background" v-if="showAll" @click="showAll=false">
-                    <p>weniger</p>
-                    <i class="fas fa-angle-up"/>
-                </div>
+            <div id="members-container">
+                <member v-for="member in group.users" :key="member.id"
+                        :member="member"></member>
             </div>
+<!--            <div class="button-container" v-if="group.users.length > 5">-->
+<!--                <div class="btn secondary-background" v-if="!showAll" @click="showAll=true">-->
+<!--                    <p>{{ group.users.length - 5 }} weitere</p>-->
+<!--                    <i class="fas fa-angle-down"/>-->
+<!--                </div>-->
+<!--                <div class="btn secondary-background" v-if="showAll" @click="showAll=false">-->
+<!--                    <p>weniger</p>-->
+<!--                    <i class="fas fa-angle-up"/>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
 
         <div id="group-info-invitation">
@@ -224,9 +227,35 @@ export default {
 #group-info-members {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
+    height: fit-content;
+    max-height: 50%;
 }
+
+#members-container {
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 0.5rem;
+    max-height: 100%;
+}
+
+#members-container::-webkit-scrollbar {
+    margin-left: -0.5rem;
+    width: 0.5rem;
+}
+
+#members-container::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 0.5rem;
+}
+
+#members-container::-webkit-scrollbar-thumb {
+    background-color: #ffa88e;
+    border-radius: 0.5rem;
+}
+
 
 #group-info-delete {
     margin-top: auto;

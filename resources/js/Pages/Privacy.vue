@@ -1,8 +1,11 @@
 <template>
     <div id="privacy">
-        <inertia-link id="logo" :href="route('home')">
-            <img src="/images/korgi_yellow_only.svg" alt="Logo">
-        </inertia-link>
+            <inertia-link id="logo" :href="route('home')">
+                <!--            <img src="/images/korgi_yellow_only.svg" alt="Logo">-->
+                <div class="round-btn secondary-background">
+                    <i class="fas fa-arrow-left"></i>
+                </div>
+            </inertia-link>
         <h1 id="greeting">Datenschutz</h1>
         <div id="privacy-content">
             <h2>Inhaltsverzeichnis</h2>
@@ -1007,7 +1010,7 @@ ul {
     display: block;
     list-style-type: disc;
     margin-top: 1em;
-    margin-bottom: 1 em;
+    margin-bottom: 1em;
     margin-left: 0;
     margin-right: 0;
     padding-left: 40px;
@@ -1052,6 +1055,10 @@ strong {
     font-weight: bold;
 }
 
+#logo {
+    text-decoration: none;
+}
+
 p {
     display: block;
     margin-top: 1em;
@@ -1065,10 +1072,16 @@ img {
 }
 
 @media (max-width: 576px) {
+    #logo {
+        margin-left: 2vh;
+        margin-top: 2vh;
+    }
+
     #privacy-content {
         width: 90%;
         padding: 2vh;
     }
+
     #greeting {
         font-size: 2rem;
         margin-top: 2vh;

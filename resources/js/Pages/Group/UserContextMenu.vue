@@ -37,7 +37,7 @@ export default {
     flex-direction: column;
     position: absolute;
     border-radius: 0.5rem;
-    right: 14%;
+    right: 16%;
     cursor: pointer;
     width: fit-content;
 }

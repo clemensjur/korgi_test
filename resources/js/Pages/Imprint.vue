@@ -1,7 +1,10 @@
 <template>
     <div id="imprint">
         <inertia-link id="logo" :href="route('home')">
-            <img src="/images/korgi_yellow_only.svg" alt="Logo">
+<!--            <img src="/images/korgi_yellow_only.svg" alt="Logo">-->
+            <div class="round-btn secondary-background">
+                <i class="fas fa-arrow-left"></i>
+            </div>
         </inertia-link>
         <h1 id="greeting">Impressum</h1>
         <div id="imprint-content">
@@ -99,6 +102,9 @@ export default {
     align-self: flex-start;
     margin-top: 4vh;
     margin-left: 4vh;
+    border: none;
+    outline: none;
+    box-shadow: none;
 }
 
 #imprint-content {
@@ -154,6 +160,11 @@ a:link:active, a:visited:active {
     color: #000000;
 }
 
+
+#logo {
+    text-decoration: none;
+}
+
 strong {
     font-weight: bold;
 }
@@ -171,6 +182,10 @@ img {
 }
 
 @media (max-width: 576px) {
+    #logo {
+        margin-left: 2vh;
+        margin-top: 2vh;
+    }
     #imprint-content {
         width: 90%;
         padding: 2vh;
