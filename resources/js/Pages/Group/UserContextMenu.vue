@@ -37,7 +37,7 @@ export default {
     flex-direction: column;
     position: absolute;
     border-radius: 0.5rem;
-    right: 16%;
+    right: 8%;
     cursor: pointer;
     width: fit-content;
 }
@@ -69,12 +69,6 @@ p {
 .option-icon {
     width: 8%;
     text-align: center;
-}
-
-@media (max-width: 576px) {
-    #context-menu {
-        right: 14%;
-    }
 }
 
 </style>

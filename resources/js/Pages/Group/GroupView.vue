@@ -149,8 +149,8 @@ export default {
 
 @media (min-width: 576px) {
     #group-view::-webkit-scrollbar {
-        margin-left: -1rem;
-        width: 1rem;
+        margin-left: -0.5rem;
+        width: 0.5rem;
     }
 
     #group-view::-webkit-scrollbar-track {

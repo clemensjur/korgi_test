@@ -41,8 +41,8 @@ export default {
 }
 
 #message-reply-text-input::-webkit-scrollbar {
-    margin-left: -1rem;
-    width: 1rem;
+    margin-left: -0.5rem;
+    width: 0.5rem;
 }
 
 #message-reply-text-input::-webkit-scrollbar-track {

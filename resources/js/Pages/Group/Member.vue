@@ -41,6 +41,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    position: relative;
 }
 
 .active {

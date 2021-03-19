@@ -104,8 +104,8 @@ export default {
 }
 
 #messages::-webkit-scrollbar {
-    margin-left: -1rem;
-    width: 1rem;
+    margin-left: -0.5rem;
+    width: 0.5rem;
 }
 
 #messages::-webkit-scrollbar-track {
