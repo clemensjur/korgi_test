@@ -360,5 +360,8 @@ export default {
         box-shadow: none;
         padding: 2vh;
     }
+    .alternate-input {
+        width: 65%;
+    }
 }
 </style>
