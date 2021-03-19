@@ -104,7 +104,7 @@ export default {
         this.isActive = !this.isActive;
         setTimeout(() => {
           this.hide = !this.hide;
-        }, 300);
+        }, 200);
       } else {
         this.hide = !this.hide;
         setTimeout(() => {
@@ -353,12 +353,12 @@ export default {
     box-shadow: 1px 0px 15px 3px var(--shadow-color);
     -webkit-box-shadow: 1px 0px 15px 3px var(--shadow-color);
     -moz-box-shadow: 1px 0px 15px 3px var(--shadow-color);
-    transition: 0.3s ease;
+    transition: 0.2s ease;
   }
 
   #navigation.navigation-active {
     right: 0;
-    transition: 0.3s ease;
+    transition: 0.2s ease;
   }
 
   .logo {

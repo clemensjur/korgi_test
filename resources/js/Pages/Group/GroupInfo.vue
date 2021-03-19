@@ -316,16 +316,18 @@ export default {
     #group-info.active {
         /*display: flex;*/
         position: absolute;
+        top: 20vw;
         width: 100%;
-        height: 100%;
+        height: calc(100vh - 20vw);
         padding: 2vh;
     }
 
     #group-info {
         /*display: none;*/
         position: absolute;
+        top: 20vw;
         width: 100%;
-        height: 100%;
+        height: calc(100vh - 20vw);
         box-shadow: none;
         padding: 2vh;
     }
