@@ -69,6 +69,7 @@ const store = new Vuex.Store({
             }
         },
         groups: {},
+        showGroupInfo: false,
         methods: {
             saveMessagesToLocalStorage: (group, chat, channel) => {
                 localStorage.setItem(
@@ -90,10 +91,14 @@ const store = new Vuex.Store({
             state.groups[payload.group].color = payload.color;
         },
         setShowArrow(state, payload) {
-            state.showArrow = payload.showArrow;
+            Vue.set(state, 'showArrow', payload.showArrow)
+        },
+        setShowGroupInfo(state, payload) {
+            console.log("setShowGroupInfo", payload)
+            Vue.set(state, 'showGroupInfo', payload.showGroupInfo)
         },
         setCurrentPage(state, payload) {
-            state.currentPage = payload.page;
+            Vue.set(state, 'currentPage', payload.page)
         },
         toggleDarkmode(state) {
             state.user.settings.darkmode = !state.user.settings.darkmode;
@@ -313,6 +318,15 @@ const store = new Vuex.Store({
         },
     },
     getters: {
+        getShowArrow: state => {
+            return state.showArrow
+        },
+        getShowGroupInfo: state => {
+            return state.showGroupInfo
+        },
+        getCurrentPage: state => {
+            return state.currentPage
+        },
         getUser: state => {
             return state.user;
         },

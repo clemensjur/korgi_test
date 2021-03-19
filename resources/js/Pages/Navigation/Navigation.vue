@@ -14,7 +14,7 @@
           ><span
         /></a>
       </div>
-      <p class="greeting">Willkommen zurück, {{ user.username }}!</p>
+      <p class="greeting">Willkommen, {{ user.username }}!</p>
       <form method="POST" @submit.prevent="logout">
         <jet-responsive-nav-link class="link" as="button">
           Abmelden
@@ -99,19 +99,19 @@ export default {
     bus: Object,
   },
   created() {
-    // this.bus.$on("toggleMenu", () => {
-    //   if (this.isActive) {
-    //     this.isActive = !this.isActive;
-    //     setTimeout(() => {
-    //       this.hide = !this.hide;
-    //     }, 300);
-    //   } else {
-    //     this.hide = !this.hide;
-    //     setTimeout(() => {
-    //       this.isActive = !this.isActive;
-    //     }, 5);
-    //   }
-    // });
+    this.bus.$on("toggleMenu", () => {
+      if (this.isActive) {
+        this.isActive = !this.isActive;
+        setTimeout(() => {
+          this.hide = !this.hide;
+        }, 300);
+      } else {
+        this.hide = !this.hide;
+        setTimeout(() => {
+          this.isActive = !this.isActive;
+        }, 5);
+      }
+    });
   },
   computed: {
     user() {

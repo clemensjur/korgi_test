@@ -2,16 +2,14 @@
     <div id="navbar">
         <img id="logo" src="/images/korgi_red.svg" alt="KORGI" v-if="!showArrow">
         <div class="arrow" v-if="showArrow">
-            <router-link :to="{name: 'groups'}"><i class="fas fa-arrow-left"></i></router-link>
+            <inertia-link :href="route('groups.show')"><i class="fas fa-arrow-left"></i></inertia-link>
         </div>
-        <div class="title">{{currentPage}}</div>
+        <div class="title" @click="toggleGroupInfo">{{currentPage}}</div>
         <a id="burger" href="#" @click="toggleMenu" v-bind:class="{active: isActive}"><span/></a>
     </div>
 </template>
 
 <script>
-import Vue from "vue";
-
 export default {
     name: "Navbar",
     props: {
@@ -20,6 +18,11 @@ export default {
     methods: {
         toggleMenu() {
             this.bus.$emit("toggleMenu");
+        },
+        toggleGroupInfo() {
+            if (this.showArrow) {
+                this.$store.commit("setShowGroupInfo", {'showGroupInfo': !this.$store.getters.getShowGroupInfo});
+            }
         }
     },
     created() {
@@ -32,7 +35,7 @@ export default {
     },
     computed: {
         currentPage() {
-            return this.$store.getters.getPage
+            return this.$store.getters.getCurrentPage
         },
         showArrow() {
             return this.$store.getters.getShowArrow

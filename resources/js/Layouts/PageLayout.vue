@@ -3,7 +3,7 @@
         <store-initializer :user="user" :groups="groups"/>
         <navigation :bus="bus" :user="$page.props.user.name"/>
         <navbar :bus="bus"/>
-        <main>
+        <main @click.prevent="isActive ? bus.$emit('toggleMenu') : null" :class="{'blurred': isActive}">
             <slot></slot>
         </main>
     </div>
@@ -24,8 +24,12 @@ export default {
     data() {
         return {
             bus: new Vue(),
+            isActive: false,
         };
     },
+    created() {
+        this.bus.$on("toggleMenu", () => {this.isActive = !this.isActive})
+    }
 };
 </script>
 
@@ -35,12 +39,25 @@ export default {
     height: 100vh;
     display: flex;
     flex-direction: row;
+    overflow: hidden;
+}
+
+main.blurred {
+    filter: blur(2px) brightness(70%) opacity(100);
+    overflow: hidden;
 }
 
 main {
     width: 80vw;
     height: 100vh;
+    overflow: hidden;
 }
+
+.blurred > div {
+    overflow: hidden;
+    pointer-events: none;
+}
+
 @media (max-width: 576px) {
     #wrapper {
         flex-direction: column;

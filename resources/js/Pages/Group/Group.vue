@@ -243,7 +243,6 @@ export default {
             bus: new Vue(),
             chats: this.group.channels,
             current: 0,
-            active: false,
             message: "",
             fileInputBus: new Vue(),
             eventAnnouncementBus: new Vue(),
@@ -254,6 +253,11 @@ export default {
             inviteBus: new Vue(),
             link: route("group.join.show", {uuid: this.group.uuid}),
         };
+    },
+    computed: {
+        active() {
+            return this.$store.getters.getShowGroupInfo
+        }
     },
     mounted() {
         this.swiper = new Swiper('.swiper-container', {
@@ -277,13 +281,13 @@ export default {
             let admin;
             this.group.users.forEach(user => {
                 if (user.id == this.user.id) {
-                    admin = user.isAdmin; 
+                    admin = user.isAdmin;
                 }
             });
             return admin;
         },
         toggleGroupInfo() {
-            this.bus.$emit("toggleGroupInfo");
+            this.$store.commit("setShowGroupInfo", {'showGroupInfo': !this.$store.getters.getShowGroupInfo});
         },
         switchToGeneral() {
             this.current = 0;
@@ -382,10 +386,6 @@ export default {
         Vue.set(this.chats['allgemein'], "uuid", this.chats['allgemein'].uuid.uuid)
         this.$store.commit("setCurrentPage", {page: this.group.name});
         this.$store.commit("setShowArrow", {showArrow: true});
-
-        this.bus.$on("toggleGroupInfo", () => {
-            this.active = !this.active;
-        });
     },
 }
 </script>
@@ -590,6 +590,11 @@ button:focus {
 
     #group {
         height: calc(100vh - 20vw);
+    }
+
+    #group-content.active {
+        width: 100vw;
+        transform: translateX(-100%);
     }
 }
 </style>

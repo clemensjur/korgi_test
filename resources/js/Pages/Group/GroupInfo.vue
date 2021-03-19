@@ -92,19 +92,18 @@ export default {
     },
     data() {
         return {
-            active: false,
             groupName: this.group.name,
             isEmpty: this.group.users.length < 2,
             nameInputActive: false,
             showAll: false,
         };
     },
+    computed: {
+        active() {
+            return this.$store.getters.getShowGroupInfo
+        }
+    },
     created() {
-
-        console.log(this.hasAdminPermissions);
-        this.bus.$on("toggleGroupInfo", () => {
-            this.active = !this.active;
-        });
         this.group.users = this.group.users.sort((a, b) => {
             if (a.isAdmin && !b.isAdmin) {
                 return -1;
@@ -117,12 +116,9 @@ export default {
             return a.name.localeCompare(b.name);
         })
     },
-    mounted() {
-        console.log(this.hasAdminPermissions);
-    },
     methods: {
         toggleGroupInfo() {
-            this.bus.$emit("toggleGroupInfo");
+            this.$store.commit("setShowGroupInfo", {'showGroupInfo': !this.$store.getters.getShowGroupInfo});
         },
         deleteGroup() {
             axios
@@ -318,20 +314,20 @@ export default {
 
 @media (max-width: 576px) {
     #group-info.active {
+        /*display: flex;*/
         position: absolute;
         width: 100%;
         height: 100%;
         padding: 2vh;
-        z-index: 35;
     }
 
     #group-info {
-        display: none;
+        /*display: none;*/
         position: absolute;
         width: 100%;
         height: 100%;
         box-shadow: none;
-        z-index: 0;
+        padding: 2vh;
     }
 }
 </style>
