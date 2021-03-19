@@ -159,7 +159,9 @@ export default {
       }
     },
     toggleMenu() {
-      this.bus.$emit("toggleMenu");
+      if (window.matchMedia("(max-width: 576px)").matches) {
+          this.bus.$emit("toggleMenu");
+      }
     },
   },
 };
