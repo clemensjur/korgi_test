@@ -10,8 +10,8 @@
                         <i class="fas fa-times"/>
                     </div>
                     <div class="btn secondary-background" :class="isValid ? '' : 'disabled'" @click="submit" v-if="!infoOnly">
-                        <p>Senden</p>
-                        <i class="fas fa-paper-plane"/>
+                        <p>Bestätigen</p>
+                        <i class="fas fa-check"/>
                     </div>
                 </div>
             </div>
