@@ -34,7 +34,10 @@
                         >
                             Files
                         </inertia-link-->
-                        <div class="btn primary-background" @click="toggleGroupInfo">Gruppeninfo</div>
+                        <div class="btn primary-background" @click="toggleGroupInfo">
+                            <p>Gruppeninfo</p>
+                            <i class="fas fa-info-circle"></i>
+                        </div>
                     </div>
                     <div id="chat-selection" class="no-select">
                         <button
@@ -563,6 +566,10 @@ button:focus {
 }
 
 .special-messages-container i {
+    margin-left: 1rem;
+}
+
+.btn i {
     margin-left: 1rem;
 }
 

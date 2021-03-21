@@ -60,8 +60,9 @@
 
         <div id="group-info-invitation">
             <div class="section-header">Einladungslink</div>
-            <div class="btn secondary-background" @click="dialogBus.$emit('open')">
-                Leute einladen
+            <div class="btn primary-background" @click="dialogBus.$emit('open')">
+                <p>Leute einladen</p>
+                <i class="fas fa-user-friends"></i>
             </div>
         </div>
         <div id="group-info-delete" v-if="hasAdminPermissions && isEmpty">
@@ -317,6 +318,10 @@ export default {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
 {
     opacity: 0;
+}
+
+.btn i {
+    margin-left: 1rem;
 }
 
 @media (max-width: 1200px) {
