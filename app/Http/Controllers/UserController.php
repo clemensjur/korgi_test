@@ -61,6 +61,7 @@ class UserController extends Controller
         }
 
         User::find($user->id)->delete();
+        DB::table("team_user")->where("user_id", $user->id)->delete();
 
         Auth::logout();
 
