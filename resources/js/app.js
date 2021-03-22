@@ -324,6 +324,17 @@ const store = new Vuex.Store({
                 payload.group.url
             );
         },
+        leaveGroup(state, payload) {
+            axios
+                .post(route("group.leave"), {
+                    uuid: payload.group.uuid,
+                });
+
+            Vue.delete(
+                state.groups,
+                payload.group.url
+            );
+        }
     },
     getters: {
         getPopupMessage: state => {

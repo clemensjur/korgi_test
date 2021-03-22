@@ -1,8 +1,12 @@
 <template>
     <div id="context-menu" class="no-select" :class="{ active: active }">
-        <div class="option warn" @click="$emit('delete')">
+        <div v-if="hasAdminPermissions && isEmpty" class="option warn" @click="$emit('delete')">
             <p>Gruppe löschen</p>
             <i class="fas fa-trash-alt"></i>
+        </div>
+        <div v-if="!hasAdminPermissions" class="option warn" @click="$emit('leave')">
+            <p>Gruppe verlassen</p>
+            <i class="fas fa-sign-out-alt"></i>
         </div>
         <div class="option" @click="$emit('changeColor')">
             <p>Farbe ändern</p>
@@ -15,11 +19,13 @@
 export default {
     name: "ContextMenu",
     props: {
-        bus: Object
+        bus: Object,
+        hasAdminPermissions: Boolean,
+        isEmpty: Boolean
     },
     data() {
         return {
-            active: false
+            active: false,
         }
     },
     // created() {

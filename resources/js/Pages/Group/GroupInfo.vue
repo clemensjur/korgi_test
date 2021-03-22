@@ -21,7 +21,7 @@
                     placeholder="Gruppenname"
                     v-model="groupName"
                 />
-                <div id="group-info-name-buttons">
+                <div id="group-info-name-buttons" v-if="hasAdminPermissions">
                     <Transition name="fade">
                         <div class="round-btn warn-background" v-if="nameInputActive" @click="cancelName">
                             <i class="fas fa-times"/>
@@ -46,16 +46,16 @@
                 <member v-for="member in group.users" :key="member.id"
                         :member="member"></member>
             </div>
-<!--            <div class="button-container" v-if="group.users.length > 5">-->
-<!--                <div class="btn secondary-background" v-if="!showAll" @click="showAll=true">-->
-<!--                    <p>{{ group.users.length - 5 }} weitere</p>-->
-<!--                    <i class="fas fa-angle-down"/>-->
-<!--                </div>-->
-<!--                <div class="btn secondary-background" v-if="showAll" @click="showAll=false">-->
-<!--                    <p>weniger</p>-->
-<!--                    <i class="fas fa-angle-up"/>-->
-<!--                </div>-->
-<!--            </div>-->
+            <!--            <div class="button-container" v-if="group.users.length > 5">-->
+            <!--                <div class="btn secondary-background" v-if="!showAll" @click="showAll=true">-->
+            <!--                    <p>{{ group.users.length - 5 }} weitere</p>-->
+            <!--                    <i class="fas fa-angle-down"/>-->
+            <!--                </div>-->
+            <!--                <div class="btn secondary-background" v-if="showAll" @click="showAll=false">-->
+            <!--                    <p>weniger</p>-->
+            <!--                    <i class="fas fa-angle-up"/>-->
+            <!--                </div>-->
+            <!--            </div>-->
         </div>
 
         <div id="group-info-invitation">
@@ -92,7 +92,6 @@ export default {
         bus: Object,
         group: Object,
         hasAdminPermissions: Boolean,
-
     },
     data() {
         return {
@@ -125,32 +124,32 @@ export default {
             this.$store.commit("setShowGroupInfo", {'showGroupInfo': !this.$store.getters.getShowGroupInfo});
         },
         deleteGroup() {
-            axios
-                .post(route("group.delete"), {
-                    uuid: this.group.uuid,
-                })
-                .then(() => this.$inertia.visit(route("groups.show"), {only: ["groups"]}));
+            if (this.hasAdminPermissions) {
+                axios
+                    .post(route("group.delete"), {
+                        uuid: this.group.uuid,
+                    })
+                    .then(() => this.$inertia.visit(route("groups.show"), {only: ["groups"]}));
+            }
         },
         leaveGroup() {
             axios
                 .post(route("group.leave"), {
                     uuid: this.group.uuid,
-                }) /*.then(() => {
-        Object.values(this.$store.state.groups).filter((i, v, a) => {
-          return v.uuid != this.group.uuid;
-        });
-      })*/
+                })
                 .then(() => this.$inertia.visit(route("groups.show")));
         },
         updateName() {
-            this.nameInputActive = false
-            axios.post(route("group.update"), {
-                groupId: this.group.id,
-                groupName: this.groupName
-            }).then(res => {
-                console.log(res);
-                this.$inertia.visit(route("group.show", {url: this.urlFormat(this.groupName)}), {only: ["group"]});
-            });
+            if (this.hasAdminPermissions) {
+                this.nameInputActive = false
+                axios.post(route("group.update"), {
+                    groupId: this.group.id,
+                    groupName: this.groupName
+                }).then(res => {
+                    console.log(res);
+                    this.$inertia.visit(route("group.show", {url: this.urlFormat(this.groupName)}), {only: ["group"]});
+                });
+            }
         },
         cancelName() {
             this.nameInputActive = false;
@@ -365,6 +364,7 @@ export default {
         box-shadow: none;
         padding: 2vh;
     }
+
     .alternate-input {
         width: 65%;
     }

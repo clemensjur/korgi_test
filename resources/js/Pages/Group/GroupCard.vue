@@ -5,7 +5,7 @@
             <h1 class="group-card-name" @click.self="linkToGroup">{{ group.name }}</h1>
             <i class="fas fa-ellipsis-h group-card-menu" @click.self="showMenu=!showMenu"></i>
             <transition name="fade">
-                <context-menu v-if="showMenu" @delete="deleteGroup" @changeColor="colorPickerBus.$emit('open', {'group': group})"/>
+                <context-menu v-if="showMenu" :is-empty="isEmpty" :has-admin-permissions="getAdminStatus" @leave="leaveGroup" @delete="deleteGroup" @changeColor="colorPickerBus.$emit('open', {'group': group})"/>
             </transition>
         </div>
     </Transition>
@@ -29,8 +29,11 @@ export default {
             bus: new Vue(),
             showMenu: false,
             mounted: false,
-
+            isEmpty: this.group.users.length < 2,
         }
+    },
+    created() {
+        console.log(this.group)
     },
     mounted() {
         // document.getElementsByClassName("group-card")[0].style.borderColor = this.group.color;
@@ -40,14 +43,22 @@ export default {
         }, this.delay)
     },
     methods: {
+        getAdminStatus() {
+            let admin;
+            this.group.users.forEach(user => {
+                if (user.id === this.user.id) {
+                    admin = user.isAdmin;
+                }
+            });
+            return admin;
+        },
         deleteGroup() {
-            this.$store.commit("deleteGroup", {"group": this.group})
-
-            // axios
-            //     .post(route("group.delete"), {
-            //         uuid: this.group.uuid,
-            //     })
-            //     .then(() => this.$inertia.visit(route("groups.show"), { only: ["groups"] }));
+            if (this.getAdminStatus()) {
+                this.$store.commit("deleteGroup", {"group": this.group});
+            }
+        },
+        leaveGroup() {
+            this.$store.commit("leaveGroup", {"group": this.group})
         },
         linkToGroup() {
             axios

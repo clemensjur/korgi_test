@@ -315,39 +315,42 @@ export default {
         },
 
         publishMessage() {
-            console.log("Group.vue: publish Message");
-            console.log("   UUID:", this.group.channels['allgemein'].uuid);
+            if (this.hasAdminPermissions || this.current === 0) {
+                if (this.message.replaceAll(' ', '').length) {
+                    console.log(this.group);
+                    this.$store.commit("publishMessage", {
+                        message: this.message,
+                        channel: this.current === 0 ? this.chats['allgemein'].uuid : this.chats['wichtig'].uuid,
+                        chat: this.current === 0 ? this.chats['allgemein'].url : this.chats['wichtig'].url,
+                        group: this.group.url,
+                    });
 
-            if (this.message.replaceAll(' ', '').length) {
-                console.log(this.group);
-                this.$store.commit("publishMessage", {
-                    message: this.message,
-                    channel: this.current === 0 ? this.chats['allgemein'].uuid : this.chats['wichtig'].uuid,
-                    chat: this.current === 0 ? this.chats['allgemein'].url : this.chats['wichtig'].url,
-                    group: this.group.url,
-                });
-
-                this.message = "";
+                    this.message = "";
+                }
             }
         },
         publishImportantMessage(content) {
-            this.$store.commit("publishImportantMessage", {
-                subject: content.subject,
-                message: content.text,
-                channel: this.chats['wichtig'].uuid,
-                chat: this.chats['wichtig'].url,
-                group: this.group.url,
-            });
+            if (this.hasAdminPermissions) {
+                this.$store.commit("publishImportantMessage", {
+                    subject: content.subject,
+                    message: content.text,
+                    channel: this.chats['wichtig'].uuid,
+                    chat: this.chats['wichtig'].url,
+                    group: this.group.url,
+                });
+            }
         },
         publishPoll(content) {
-            this.$store.commit("publishPoll", {
-                subject: content.subject,
-                channel: this.chats['wichtig'].uuid,
-                chat: this.chats['wichtig'].url,
-                group: this.group.url,
-                allowMultiple: content.allowMultiple,
-                answers: content.answers,
-            });
+            if (this.hasAdminPermissions) {
+                this.$store.commit("publishPoll", {
+                    subject: content.subject,
+                    channel: this.chats['wichtig'].uuid,
+                    chat: this.chats['wichtig'].url,
+                    group: this.group.url,
+                    allowMultiple: content.allowMultiple,
+                    answers: content.answers,
+                });
+            }
         },
         publishFile(content) {
             // TODO Upload File
@@ -377,14 +380,16 @@ export default {
 
         },
         publishEventAnnouncement(eventAnnouncement) {
-            // TODO add event to group in database
-            this.$store.commit("publishEventAnnouncement", {
-                message: eventAnnouncement.subject,
-                channel: this.chats['wichtig'].uuid,
-                chat: this.chats['wichtig'].url,
-                group: this.group.url,
-                date: eventAnnouncement.date,
-            });
+            if (this.hasAdminPermissions) {
+                // TODO add event to group in database
+                this.$store.commit("publishEventAnnouncement", {
+                    message: eventAnnouncement.subject,
+                    channel: this.chats['wichtig'].uuid,
+                    chat: this.chats['wichtig'].url,
+                    group: this.group.url,
+                    date: eventAnnouncement.date,
+                });
+            }
         },
         hasAccess() {
             if (this.current === 1) {
@@ -394,7 +399,9 @@ export default {
             }
         },
         toggleSpecialMessages() {
-            this.openSpecialMessages = !this.openSpecialMessages;
+            if (this.hasAdminPermissions) {
+                this.openSpecialMessages = !this.openSpecialMessages;
+            }
         },
     },
     created() {
