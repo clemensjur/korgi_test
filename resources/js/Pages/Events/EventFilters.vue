@@ -17,9 +17,9 @@
         </label>
         <div class="section-header">Gruppe</div>
         <select class="alternate-input">
-            <option>Alle</option>
-            <option>Schmetterlinge</option>
-            <option>Raupen</option>
+            <option v-for="group in Object.values($store.getters.getGroups)">
+                {{group.name}}
+            </option>
         </select>
     </div>
 </template>
@@ -109,6 +109,16 @@ export default {
 .checkbox-container {
     margin-top: 6vh;
     white-space: nowrap;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: all 0.15s ease;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+{
+    opacity: 0;
 }
 
 @media (max-width: 1200px) {
