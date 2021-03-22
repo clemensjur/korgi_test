@@ -110,7 +110,7 @@ const store = new Vuex.Store({
         //     });
         //     //saveMessagesToLocalStorage(payload.group, payload.chat, payload.channel)
         // },
-
+        // Stelle 1
         addPollMessageAction(state, payload) {
             Vue.set(
                 state.groups[payload.group].channels[payload.chat].messages[
@@ -268,6 +268,7 @@ const store = new Vuex.Store({
                 }
             });
         },
+        // stelle 2
         addMessage(state, payload) {
             Vue.set(
                 state.groups[payload.message.message.group].channels[
@@ -276,7 +277,11 @@ const store = new Vuex.Store({
                 payload.message.timetoken,
                 payload.message
             );
-            store.state.methods.saveMessagesToLocalStorage(payload.message.message.group, payload.message.message.chat, payload.message.channel)
+            store.state.methods.saveMessagesToLocalStorage(
+                payload.message.message.group,
+                payload.message.message.chat,
+                payload.message.channel
+            )
         },
         addEvent(state, payload) {
             // TODO push to server

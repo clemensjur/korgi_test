@@ -1,6 +1,6 @@
 <template>
     <div id="chat">
-        <div id="messages" v-if="renderComponent">
+        <div :id="channel.url" class="messages" v-if="renderComponent">
             <ChatElement
                 v-for="message in Object.values(messages)"
                 :key="message.timestamp"
@@ -49,7 +49,7 @@ export default {
         messages: {
             handler() {
                 console.log("Chat.vue: Received Message")
-                let messagesElement = document.getElementById("messages");
+                let messagesElement = document.getElementById(this.channel.url);
                 let scrollPercentage = Math.ceil(
                     (100 * messagesElement.scrollTop) /
                     (messagesElement.scrollHeight - messagesElement.clientHeight)
@@ -69,15 +69,13 @@ export default {
     },
     methods: {
         jumpToBottom() {
-            let messagesElement = document.getElementById("messages");
+            let messagesElement = document.getElementById(this.channel.url);
             messagesElement.scrollTo(0, messagesElement.scrollHeight);
         },
         scrollToBottom() {
-            let messagesElement = document.getElementById("messages");
+            let messagesElement = document.getElementById(this.channel.url);
             messagesElement.scrollTo({top: messagesElement.scrollHeight, left: 0, behavior: "smooth"});
         },
-    },
-    created() {
     },
 };
 </script>
@@ -93,7 +91,7 @@ export default {
     overflow: hidden;
 }
 
-#messages {
+.messages {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -103,17 +101,17 @@ export default {
     overflow-x: hidden;
 }
 
-#messages::-webkit-scrollbar {
+.messages::-webkit-scrollbar {
     margin-left: -0.5rem;
     width: 0.5rem;
 }
 
-#messages::-webkit-scrollbar-track {
+.messages::-webkit-scrollbar-track {
     background: transparent;
     border-radius: 0.5rem;
 }
 
-#messages::-webkit-scrollbar-thumb {
+.messages::-webkit-scrollbar-thumb {
     background-color: #ffa88e;
     border-radius: 0.5rem;
 }
@@ -122,12 +120,12 @@ export default {
 @media (max-width: 576px) {
 
 
-    #messages::-webkit-scrollbar {
+    .messages::-webkit-scrollbar {
         width: 0.5rem;
     }
 
 
-    #messages {
+    .messages {
         padding: 0.5vh;
     }
 }

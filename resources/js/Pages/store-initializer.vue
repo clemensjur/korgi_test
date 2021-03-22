@@ -51,10 +51,13 @@ export default {
                         message: event,
                     });
 
+                    console.log(event.message.group)
                     this.$inertia.reload(route("group.show", {url: event.message.group}));
                 },
                 messageAction: (event) => {
                     let value = JSON.parse(event.data.value);
+
+                    console.log("MessageAction received", value,event.data, event)
 
                     switch (event.data.type) {
                         case "poll":
@@ -70,6 +73,8 @@ export default {
                             });
                             break;
                     }
+                    console.log("MessageAction received 2")
+                    console.log(value.group)
                     this.$inertia.reload(route("group.show", {url: value.group}));
                 },
             });
@@ -102,12 +107,16 @@ export default {
             return JSON.parse(localStorage.getItem(channel)) || {};
         },
         getAllMissedMessagesFromPubNub() {
+            console.log("getAllMissedMessagesFromPubNub");
             Object.keys(this.$store.state.groups).forEach((group) => {
+                console.log("   Group:", group)
                 Object.keys(this.$store.state.groups[group].channels).forEach(
                     (chat) => {
+                        console.log("       Chat:", chat)
                         let channel = this.$store.state.groups[group].channels[chat];
                         let messageValues = Object.values(channel.messages);
                         if (messageValues.length > 0) {
+                            console.log("           Old Messages Found")
                             this.getMissedMessagesFromPubNub(
                                 group,
                                 chat,
@@ -133,48 +142,58 @@ export default {
                     end: endTimetoken,
                     count: 25, // default/max is 25
                 },
-                function (status, response) {
-                    let newMessages = Object.values(response.channels)[0];
+                (status, response) => {
+                    console.log("getMissedMessagesFromPubNub for: ", group, chat);
+                    console.log("   With status:", status);
+                    if (response) {
+                        console.log("   Received response:", response)
+                        let newMessages = Object.values(response.channels)[0];
 
-                    this.messages = this.messages.concat(newMessages);
+                        console.log("       messages:", this.messages)
 
-                    let currentTimetoken = newMessages[0].timetoken;
+                        this.messages = this.messages.concat(newMessages);
+                        let currentTimetoken = newMessages[0].timetoken;
+                        console.log("       currentTimeToken:", currentTimetoken);
+                        console.log("       endTimeToken:", endTimetoken);
 
-                    if (currentTimetoken !== endTimetoken) {
-                        this.getMissedMessagesFromPubNub(
+                        if (currentTimetoken !== endTimetoken) {
+                            this.getMissedMessagesFromPubNub(
+                                group,
+                                chat,
+                                channel,
+                                endTimetoken,
+                                currentTimetoken
+                            );
+                            return;
+                        }
+
+                        this.messages.sort((a, b) => {
+                            if (parseInt(a.timetoken) > parseInt(b.timetoken)) {
+                                return 1;
+                            }
+                            if (parseInt(a.timetoken) < parseInt(b.timetoken)) {
+                                return -1;
+                            }
+                            return 0;
+                        });
+
+                        this.messages.forEach((message) => {
+                            Vue.set(
+                                this.$store.state.groups[group].channels[chat].messages,
+                                message.timetoken,
+                                message
+                            );
+                        });
+
+                        this.$inertia.reload(route("group.show", {url: group}));
+
+                        this.$store.state.methods.saveMessagesToLocalStorage(
                             group,
                             chat,
-                            channel,
-                            endTimetoken,
-                            currentTimetoken
+                            channel
                         );
-                        return;
+                        this.messages = [];
                     }
-
-                    this.messages.sort((a, b) => {
-                        if (parseInt(a.timetoken) > parseInt(b.timetoken)) {
-                            return 1;
-                        }
-                        if (parseInt(a.timetoken) < parseInt(b.timetoken)) {
-                            return -1;
-                        }
-                        return 0;
-                    });
-
-                    this.messages.forEach((message) => {
-                        Vue.set(
-                            this.$store.state.groups[group].channels[chat].messages,
-                            message.timetoken,
-                            message
-                        );
-                    });
-
-                    this.$store.state.methods.saveMessagesToLocalStorage(
-                        group,
-                        chat,
-                        channel
-                    );
-                    this.messages = [];
                 }
             );
 
