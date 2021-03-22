@@ -14,28 +14,58 @@
                                 <span class="small-headline">Name</span>
                                 <input
                                     class="alternate-input"
+                                    :class="{'disabled': !nameInputActive}"
                                     type="text"
                                     name="username"
                                     value="username"
                                     placeholder="Username"
                                     v-model="username"
                                 />
-                                <div class="round-btn primary-background">
-                                    <i class="fas fa-edit"/>
+                                <div class="user-settings-buttons">
+                                    <Transition name="fade">
+                                        <div class="round-btn warn-background" v-if="nameInputActive" @click="cancelName">
+                                            <i class="fas fa-times"/>
+                                        </div>
+                                    </Transition>
+
+                                    <Transition name="fade">
+                                        <div class="round-btn secondary-background" v-if="nameInputActive" @click="updateName">
+                                            <i class="fas fa-check"/>
+                                        </div>
+
+                                        <div class="round-btn primary-background" v-if="!nameInputActive" @click="nameInputActive=true; emailInputActive=false">
+                                            <i class="fas fa-pen"/>
+                                        </div>
+                                    </Transition>
                                 </div>
                             </div>
                             <div class="flex-item-container">
                                 <span class="small-headline">E-Mail</span>
                                 <input
                                     class="alternate-input"
+                                    :class="{'disabled': !emailInputActive}"
                                     type="email"
                                     name="email"
                                     value="email"
                                     placeholder="E-Mail"
                                     v-model="usermail"
                                 />
-                                <div class="round-btn primary-background">
-                                    <i class="fas fa-edit"/>
+                                <div class="user-settings-buttons">
+                                    <Transition name="fade">
+                                        <div class="round-btn warn-background" v-if="emailInputActive" @click="emailInputActive=false">
+                                            <i class="fas fa-times"/>
+                                        </div>
+                                    </Transition>
+
+                                    <Transition name="fade">
+                                        <div class="round-btn secondary-background" v-if="emailInputActive" @click="emailInputActive=false">
+                                            <i class="fas fa-check"/>
+                                        </div>
+
+                                        <div class="round-btn primary-background" v-if="!emailInputActive" @click="emailInputActive=true; nameInputActive=false ">
+                                            <i class="fas fa-pen"/>
+                                        </div>
+                                    </Transition>
                                 </div>
                             </div>
                             <div class="link-container">
@@ -141,7 +171,9 @@ export default {
         return {
             username: this.user.name,
             usermail: this.user.email,
-            bus: new Vue()
+            bus: new Vue(),
+            nameInputActive: false,
+            emailInputActive: false
         };
     },
     created() {
@@ -172,7 +204,14 @@ export default {
             axios.post(route("user.delete")).then((response) => {
                 // this.$inertia.visit(route("home"));
             });
-        }
+        },
+        updateName() {
+            this.nameInputActive = false
+        },
+        cancelName() {
+            this.nameInputActive = false;
+            this.groupName = this.group.name;
+        },
     },
 };
 </script>
@@ -315,6 +354,29 @@ a {
     padding: 0;
     justify-content: space-between;
     flex-wrap: wrap;
+}
+
+.user-settings-buttons {
+    display: flex;
+    flex-direction: row;
+    width: 7rem;
+    justify-content: flex-end;
+}
+
+.user-settings-buttons .round-btn {
+    margin-left: 0.5rem;
+}
+
+/*Transitions*/
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: all 0.15s ease;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+{
+    opacity: 0;
 }
 
 @media (max-width: 1200px) {
