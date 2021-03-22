@@ -69,7 +69,7 @@
                                 </div>
                             </div>
                             <div class="link-container">
-                                <inertia-link :href="route('password.reset')">Passwort ändern</inertia-link>
+                                <inertia-link :href="route('password.request')">Passwort ändern</inertia-link>
                                 <a @click="deleteAccount" class="warn">Account löschen</a>
                             </div>
                         </div>
