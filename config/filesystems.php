@@ -56,7 +56,7 @@ return [
             'driver' => 'ftp',
             'host' => 'e104161-ftp.services.easyname.eu',
             'username' => '164388ftp1',
-            'password' => '.ek71ppu943b',
+            'password' => '0.y3ddi0viqh',
 
             // Optional FTP Settings...
             // 'port' => 21,
