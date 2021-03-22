@@ -58,12 +58,6 @@
           <i class="fas fa-cog"></i>
         </inertia-link>
       </div>
-      <div @click="toggleMenu" v-bind:class="{ active: isActive }">
-        <div :class="tutorialIsCurrent()" class="navigation-item">
-          <p>Tutorial starten</p>
-          <i class="far fa-question-circle"></i>
-        </div>
-      </div>
     </div>
     <div id="bottom">
       <inertia-link :href="route('imprint')" class="footer-link"

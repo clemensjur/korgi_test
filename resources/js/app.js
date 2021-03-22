@@ -70,6 +70,7 @@ const store = new Vuex.Store({
         },
         groups: {},
         showGroupInfo: false,
+        popupMessage: "",
         methods: {
             saveMessagesToLocalStorage: (group, chat, channel) => {
                 localStorage.setItem(
@@ -82,6 +83,9 @@ const store = new Vuex.Store({
         }
     },
     mutations: {
+        setPopupMessage(state, payload) {
+            Vue.set(state, "popupMessage", payload.message)
+        },
         setState(state, payload) {
             Vue.set(state, "pubnub", payload.pubnub);
             Vue.set(state, "user", payload.user);
@@ -94,7 +98,6 @@ const store = new Vuex.Store({
             Vue.set(state, 'showArrow', payload.showArrow)
         },
         setShowGroupInfo(state, payload) {
-            console.log("setShowGroupInfo", payload)
             Vue.set(state, 'showGroupInfo', payload.showGroupInfo)
         },
         setCurrentPage(state, payload) {
@@ -323,6 +326,9 @@ const store = new Vuex.Store({
         },
     },
     getters: {
+        getPopupMessage: state => {
+            return state.popupMessage
+        },
         getShowArrow: state => {
             return state.showArrow
         },

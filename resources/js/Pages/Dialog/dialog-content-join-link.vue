@@ -45,6 +45,10 @@ export default {
             tempInput.select();
             document.execCommand("copy");
             document.body.removeChild(tempInput);
+            this.$store.commit("setPopupMessage", {message:"Link kopiert!"});
+            setTimeout(() => {
+                this.$store.commit("setPopupMessage", {message:""});
+            }, 1500)
         },
         printQrCode() {
 

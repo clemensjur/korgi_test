@@ -7,6 +7,7 @@
             <div class="blur"></div>
             <slot></slot>
         </main>
+        <popup/>
     </div>
 </template>
 
@@ -15,9 +16,10 @@ import Vue from "vue";
 import Navigation from "@/Pages/Navigation/Navigation.vue";
 import Navbar from "@/Pages/Navigation/Navbar.vue";
 import StoreInitializer from "@/Pages/store-initializer";
+import Popup from "@/Pages/Popup";
 
 export default {
-    components: {StoreInitializer, Navigation, Navbar},
+    components: {Popup, StoreInitializer, Navigation, Navbar},
     props: {
         user: Object,
         groups: Array,
