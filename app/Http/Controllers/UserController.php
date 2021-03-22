@@ -7,6 +7,7 @@ use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Laravel\Jetstream\Events\TeamMemberAdded;
@@ -20,10 +21,18 @@ class UserController extends Controller
 
         $user = User::find($request->userId);
         $team = Team::where("uuid", $request->uuid)->first();
+        $color = DB::table("team_user")->where([
+            ["user_id", "=", $user->id],
+            ["team_id", "=", $team->id],
+            ["role", "=", "admin"]
+        ])->first()->color;
 
         $team->users()->attach(
             $user,
-            ['role' => 'editor']
+            [
+                'role' => 'editor',
+                'color' => $color
+            ]
         );
 
         TeamMemberAdded::dispatch($team, $user);

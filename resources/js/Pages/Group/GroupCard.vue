@@ -30,11 +30,11 @@ export default {
             bus: new Vue(),
             showMenu: false,
             mounted: false,
-            isEmpty: this.group.users.length < 2,
+            isEmpty: false // this.group.users.length < 2,
         }
     },
     created() {
-        console.log(this.user)
+        console.log(this.group)
     },
     mounted() {
         // document.getElementsByClassName("group-card")[0].style.borderColor = this.group.color;
