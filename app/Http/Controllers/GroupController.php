@@ -60,7 +60,7 @@ class GroupController extends Controller
             "team_id" => $team->id,
             "type" => false,
             // "url" => route("group.show", [
-                "url" => "allgemein",//$this->urlFormat($team->name),
+            "url" => "allgemein", //$this->urlFormat($team->name),
             // ]),
             "uuid" => DB::raw('UUID()')
         ]);
@@ -69,7 +69,7 @@ class GroupController extends Controller
             "team_id" => $team->id,
             "type" => true,
             // "url" => route("group.show", [
-                "url" => "wichtig",//$this->urlFormat($team->name),
+            "url" => "wichtig", //$this->urlFormat($team->name),
             // ]),
             "uuid" => DB::raw('UUID()')
         ]);
@@ -210,6 +210,16 @@ class GroupController extends Controller
                 array_push($uuids, $chat->uuid);
             }
 
+            $users = [];
+
+            foreach ($team->allUsers() as $user) {
+                array_push($users, [
+                    "id" => $user->id,
+                    "name" => $user->name,
+                    "isAdmin" => $user->hasTeamRole($team, "admin") || $user->hasTeamRole($team, "owner")
+                ]);
+            }
+
             // Log::info(implode(", ", $uuids));
             // Log::info($chat->uuid);
 
@@ -238,7 +248,8 @@ class GroupController extends Controller
                             "url" => "wichtig",
                             "uuid" => $uuids[1],
                         ]
-                    ]
+                    ],
+                    "users" =>  $users
                 ]
             ]);
         }
