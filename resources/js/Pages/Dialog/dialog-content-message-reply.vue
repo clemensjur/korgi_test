@@ -11,7 +11,8 @@ export default {
     data() {
         return {
             subject: "",
-            text: ""
+            text: "",
+            message: undefined
         }
     },
     props: {
@@ -19,9 +20,17 @@ export default {
     },
     methods: {
         saveContent() {
-            this.bus.$emit('validate', {"text": this.text});
+            this.bus.$emit('validate', {
+                text: this.text,
+                message : this.message
+            });
         },
-    }
+    },
+    created() {
+        this.bus.$on("open", (payload) => {
+            this.message = payload.message;
+        })
+    },
 }
 </script>
 

@@ -1,22 +1,18 @@
 <template>
     <Transition name="fade-up">
         <div class="chat-element" :class="{own: isOwn}" :id="message.timetoken" v-if="showMessage">
-            <dialog-window :bus="messageReplyBus" title="Antworten" @submit="publishMessageReply">
-                <dialog-content-message-reply :bus="messageReplyBus"/>
-            </dialog-window>
-
             <message v-if="message.message.messageType === 'message' && message.message.chat === 'allgemein'"
-                     :message="message" v-on:open="messageReplyBus.$emit('open')"/>
+                     :message="message" v-on:open="(payload) => messageReplyBus.$emit('open', payload)"/>
             <important-message v-if="message.message.messageType === 'importantMessage'" :message="message"/>
             <less-important-message
                 v-if="message.message.messageType === 'message' && message.message.chat === 'wichtig'"
                 :message="message"/>
             <file v-if="message.message.messageType === 'file'" :group="group" :message="message"
-                  v-on:open="messageReplyBus.$emit('open')"/>
+                  v-on:open="(payload) => messageReplyBus.$emit('open', payload)"/>
             <event-announcement v-if="message.message.messageType === 'eventAnnouncement'" :message="message"/>
             <poll v-if="message.message.messageType === 'poll'" :message="message" :group="group"/>
             <message-reply v-if="message.message.messageType === 'reply'" :message="message"
-                           v-on:open="messageReplyBus.$emit('open')"></message-reply>
+                           v-on:open="(payload) => messageReplyBus.$emit('open', payload)"></message-reply>
         </div>
     </Transition>
 </template>
@@ -41,17 +37,17 @@ export default {
         DialogWindow, Poll, ImportantMessage, LessImportantMessage, EventAnnouncement, File, Message
     },
     props: {
+        messageReplyBus: Object,
         message: Object,
         group: Object
     },
     computed: {
         isOwn() {
-            return this.message.publisher === this.$store.state.pubnub.getUUID()
+            return this.message.message.user.uuid === this.$store.state.pubnub.getUUID()
         },
     },
     data() {
         return {
-            messageReplyBus: new Vue(),
             playAnimation: false,
             showMessage: true
         };
@@ -71,20 +67,7 @@ export default {
         }
     },
     methods: {
-        publishMessageReply(content) {
-            this.$store.commit('publishReply', {
-                message: content.text,
-                channel: this.message.channel,
-                chat: this.message.message.chat,
-                group: this.message.message.group,
-                messageTimetoken: this.message.timetoken
-            });
 
-            this.$inertia.reload(route("group.show", {url: this.group.url}));
-
-            let messagesElement = document.getElementById('messages');
-            messagesElement.scrollTo(0, messagesElement.scrollHeight);
-        },
     }
 }
 </script>

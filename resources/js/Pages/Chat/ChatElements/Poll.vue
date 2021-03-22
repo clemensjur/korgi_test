@@ -34,7 +34,7 @@ export default {
   },
   computed: {
     isOwn() {
-      return this.message.publisher === this.$store.state.pubnub.getUUID();
+      return this.message.message.user.uuid === this.$store.state.pubnub.getUUID();
     },
   },
   methods: {

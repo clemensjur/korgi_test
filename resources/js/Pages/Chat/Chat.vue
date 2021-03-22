@@ -6,6 +6,7 @@
                 :key="message.timestamp"
                 :message="message"
                 :group="group"
+                :message-reply-bus="messageReplyBus"
                 class="chat-element"
             />
         </div>
@@ -30,6 +31,7 @@ export default {
     props: {
         group: Object,
         chat: Object,
+        messageReplyBus: Object,
     },
     data() {
         return {

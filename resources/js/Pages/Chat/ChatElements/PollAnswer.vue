@@ -36,7 +36,7 @@ export default {
             return this.isSelected ? {'--percentage': this.delayedPercentage + '%', '--fill-color': 'var(--answered-poll-color)'} : {'--percentage': this.delayedPercentage + '%', '--fill-color': 'var(--primary)'}
         },
         isOwn() {
-            return this.message.publisher === this.$store.state.pubnub.getUUID()
+            return this.message.message.user.uuid === this.$store.state.pubnub.getUUID()
         },
     },
     watch: {

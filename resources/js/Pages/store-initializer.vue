@@ -150,8 +150,10 @@ export default {
                         let newMessages = Object.values(response.channels)[0];
 
                         console.log("       messages:", this.messages)
+                        console.log("       newMessages:", newMessages)
 
                         this.messages = this.messages.concat(newMessages);
+
                         let currentTimetoken = newMessages[0].timetoken;
                         console.log("       currentTimeToken:", currentTimetoken);
                         console.log("       endTimeToken:", endTimetoken);
@@ -176,6 +178,10 @@ export default {
                             }
                             return 0;
                         });
+
+                        this.messages.shift();
+
+                        console.log("       messages:", this.messages)
 
                         this.messages.forEach((message) => {
                             Vue.set(

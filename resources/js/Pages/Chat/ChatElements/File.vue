@@ -2,7 +2,7 @@
     <div class="file-element" v-bind:class="changeAlignment()">
         <div class="message-header">
             <div class="sender">{{ message.message.user.username }}</div>
-            <i class="fas fa-reply" @click="$emit('open')"></i>
+            <i class="fas fa-reply" @click="$emit('open', {'message': message})"></i>
         </div>
         <p class="text">{{message.message.text}}</p>
         <div class="file-container primary-background" @click="download">
@@ -30,7 +30,7 @@ export default {
     },
     computed: {
         isOwn() {
-            return this.message.publisher === this.$store.state.pubnub.getUUID()
+            return this.message.message.user.uuid === this.$store.state.pubnub.getUUID()
         }
     },
     methods: {

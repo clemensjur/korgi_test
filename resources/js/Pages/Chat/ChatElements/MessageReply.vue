@@ -2,7 +2,7 @@
     <div class="message" :class="{own : isOwn}">
         <div class="message-header">
             <div class="sender">{{ message.message.user.username }}</div>
-            <i class="fas fa-reply" @click="$emit('open')"></i>
+            <i class="fas fa-reply" @click="$emit('open', {'message': message})"></i>
         </div>
         <div class="reply" @click="scrollToMessage">
             <div class="reply-sender">{{replyMessage.message.user.username}}</div>
@@ -32,7 +32,7 @@ export default {
     },
     computed: {
         isOwn() {
-            return this.message.publisher === this.$store.state.pubnub.getUUID()
+            return this.message.message.user.uuid === this.$store.state.pubnub.getUUID()
         }
     },
     methods: {
