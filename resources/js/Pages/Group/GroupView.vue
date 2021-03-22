@@ -22,6 +22,7 @@
                     <group-card
                         v-for="(group, key, index) in groupsObject"
                         :group="group"
+                        :user="user"
                         :key="group.url"
                         :delay="index * 200"
                         :color-picker-bus="colorPickerBus"

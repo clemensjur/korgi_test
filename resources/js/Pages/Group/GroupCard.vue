@@ -5,7 +5,7 @@
             <h1 class="group-card-name" @click.self="linkToGroup">{{ group.name }}</h1>
             <i class="fas fa-ellipsis-h group-card-menu" @click.self="showMenu=!showMenu"></i>
             <transition name="fade">
-                <context-menu v-if="showMenu" :is-empty="isEmpty" :has-admin-permissions="getAdminStatus" @leave="leaveGroup" @delete="deleteGroup" @changeColor="colorPickerBus.$emit('open', {'group': group})"/>
+                <context-menu v-if="showMenu" :is-empty="isEmpty" :has-admin-permissions="getAdminStatus()" @leave="leaveGroup" @delete="deleteGroup" @changeColor="colorPickerBus.$emit('open', {'group': group})"/>
             </transition>
         </div>
     </Transition>
@@ -21,6 +21,7 @@ export default {
     components: {ContextMenu},
     props: {
         group: Object,
+        user: Object,
         delay: Number,
         colorPickerBus: Object
     },
@@ -33,7 +34,7 @@ export default {
         }
     },
     created() {
-        console.log(this.group)
+        console.log(this.user)
     },
     mounted() {
         // document.getElementsByClassName("group-card")[0].style.borderColor = this.group.color;

@@ -4,7 +4,7 @@
             <p>Gruppe löschen</p>
             <i class="fas fa-trash-alt"></i>
         </div>
-        <div v-if="!hasAdminPermissions" class="option warn" @click="$emit('leave')">
+        <div v-if="(!hasAdminPermissions) || (!isEmpty)" class="option warn" @click="$emit('leave')">
             <p>Gruppe verlassen</p>
             <i class="fas fa-sign-out-alt"></i>
         </div>
