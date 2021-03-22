@@ -1,38 +1,39 @@
 <template>
-    <div class="file-element" v-bind:class="changeAlignment()">
-        <div class="message-header">
-            <div class="sender">{{ message.message.user.username }}</div>
-            <i class="fas fa-reply" @click="$emit('open', {'message': message})"></i>
-        </div>
-        <p class="text">{{message.message.text}}</p>
-        <div class="file-container primary-background" @click="download">
-            <i class="file-icon far fa-file-pdf"></i>
-            <p class="text">{{message.message.fileName}}</p>
-        </div>
-        <div class="timetoken">
-            {{
-                new Date(message.timetoken / 10000).toLocaleTimeString('de', {
-                    hour: "2-digit",
-                    minute: "2-digit"
-                })
-            }}
-        </div>
+  <div class="file-element" v-bind:class="changeAlignment()">
+    <div class="message-header">
+      <div class="sender">{{ message.message.user.username }}</div>
+      <i class="fas fa-reply" @click="$emit('open', { message: message })"></i>
     </div>
+    <p class="text">{{ message.message.text }}</p>
+    <div class="file-container primary-background" @click="download">
+      <i class="file-icon far fa-file-pdf"></i>
+      <p class="text">{{ message.message.fileName }}</p>
+    </div>
+    <div class="timetoken">
+      {{
+        new Date(message.timetoken / 10000).toLocaleTimeString("de", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      }}
+    </div>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
 
 export default {
-    name: "File",
-    props: {
-        message: Object,
-        group: Object
-    },
-    computed: {
-        isOwn() {
-            return this.message.message.user.uuid === this.$store.state.pubnub.getUUID()
-        }
+  name: "File",
+  props: {
+    message: Object,
+    group: Object,
+  },
+  computed: {
+    isOwn() {
+      return (
+        this.message.message.user.uuid === this.$store.state.pubnub.getUUID()
+      );
     },
   },
   methods: {
@@ -46,12 +47,16 @@ export default {
       console.log(this.group.id);
       let filename = this.message.message.fileName;
       axios
-        .post(route("group.files.download"), {
-          filename: filename,
-          groupId: this.group.id,
-        }, {
-            responseType: 'blob'
-        })
+        .post(
+          route("group.files.download"),
+          {
+            filename: filename,
+            groupId: this.group.id,
+          },
+          {
+            responseType: "blob",
+          }
+        )
         .then((res) => {
           console.log(res);
           let blob = new Blob([res.data]);

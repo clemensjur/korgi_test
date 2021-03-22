@@ -60,6 +60,6 @@ class FileController extends Controller
             abort(404, "File not found!");
         }
         ob_end_clean();
-        return Storage::download($filePath, $filename); // Storage::get($filePath);
+        return Storage::get($filePath);
     }
 }
