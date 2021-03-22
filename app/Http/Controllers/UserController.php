@@ -21,17 +21,12 @@ class UserController extends Controller
 
         $user = User::find($request->userId);
         $team = Team::where("uuid", $request->uuid)->first();
-        $color = DB::table("team_user")->where([
-            ["user_id", "=", $user->id],
-            ["team_id", "=", $team->id],
-            ["role", "=", "admin"]
-        ])->first()->color;
 
         $team->users()->attach(
             $user,
             [
                 'role' => 'editor',
-                'color' => $color
+                'color' => '#FFC78E'
             ]
         );
 
