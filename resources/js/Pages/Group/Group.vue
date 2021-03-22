@@ -67,12 +67,14 @@
                             <Chat
                                 :group="group"
                                 :chat="chats['allgemein']"
+                                :message-reply-bus="messageReplyBus"
                             />
                         </div>
                         <div class="swiper-slide">
                             <Chat
                                 :group="group"
                                 :chat="chats['wichtig']"
+                                :message-reply-bus="messageReplyBus"
                             />
                         </div>
                     </div>
@@ -106,6 +108,9 @@
                         @submit="publishPoll"
                     >
                         <dialog-content-poll :bus="pollBus"/>
+                    </dialog-window>
+                    <dialog-window :bus="messageReplyBus" title="Antworten" @submit="publishMessageReply">
+                        <dialog-content-message-reply :bus="messageReplyBus"/>
                     </dialog-window>
                     <transition name="fade-box">
                         <div
@@ -209,10 +214,12 @@ import DialogContentImportantMessage from "@/Pages/Dialog/dialog-content-importa
 import DialogContentPoll from "@/Pages/Dialog/dialog-content-poll";
 import axios from "axios";
 import DialogContentJoinLink from "@/Pages/Dialog/dialog-content-join-link";
+import DialogContentMessageReply from "@/Pages/Dialog/dialog-content-message-reply";
 
 export default {
     name: "Group",
     components: {
+        DialogContentMessageReply,
         StoreInitializer,
         PageLayout,
         Navigation,
@@ -245,6 +252,7 @@ export default {
             dateVotingBus: new Vue(),
             pollBus: new Vue(),
             importantMessageBus: new Vue(),
+            messageReplyBus: new Vue(),
             openSpecialMessages: false,
             inviteBus: new Vue(),
             link: route("group.join.show", {uuid: this.group.uuid}),
@@ -292,6 +300,18 @@ export default {
         switchToImportant() {
             this.current = 1;
             this.swiper.slideTo(1);
+        },
+
+        publishMessageReply(content) {
+            this.$store.commit('publishReply', {
+                message: content.text,
+                channel: content.message.channel,
+                chat: content.message.message.chat,
+                group: content.message.message.group,
+                messageTimetoken: content.message.timetoken
+            });
+
+            this.$inertia.reload(route("group.show", {url: this.group.url}));
         },
 
         publishMessage() {

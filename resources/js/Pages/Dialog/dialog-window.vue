@@ -1,7 +1,7 @@
 <template>
     <transition name="fade">
-        <div class="dialog-background" v-if="isOpen" @click.self="close" @keypress.esc="close">
-            <div class="dialog-window" v-if="isOpen">
+        <div class="dialog-background" v-show="isOpen" @click.self="close" @keypress.esc="close">
+            <div class="dialog-window" v-show="isOpen">
                 <h1 class="dialog-title">{{ title }}</h1>
                 <slot></slot>
                 <div class="buttons" :class="{'center': infoOnly}">
