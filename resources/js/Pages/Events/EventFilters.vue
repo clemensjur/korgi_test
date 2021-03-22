@@ -17,6 +17,7 @@
         </label>
         <div class="section-header">Gruppe</div>
         <select class="alternate-input">
+            <option>Alle</option>
             <option v-for="group in Object.values($store.getters.getGroups)">
                 {{group.name}}
             </option>

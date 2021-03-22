@@ -1,8 +1,13 @@
 <template>
     <div class="message" v-bind:class="changeAlignment()">
         <div class="sender" v-if="!isOwn">{{ message.message.user.username }}</div>
-        <div class="subject">{{ message.message.text }}</div>
-        <div class="date"><span style="font-weight: bold">Datum:</span> {{weekdayNames[date.getDay()]}}, {{date.toLocaleDateString('de')}}</div>
+        <div class="message-header">
+            <div class="subject">{{ message.message.text }}</div>
+            <i class="fas fa-info-circle" @click="bus.$emit('open')"></i>
+        </div>
+        <div class="date"><span style="font-weight: bold">Datum:</span> {{ weekdayNames[date.getDay()] }},
+            {{ date.toLocaleDateString('de') }}
+        </div>
         <div class="timetoken">{{
                 new Date(message.timetoken / 10000).toLocaleTimeString('de', {
                     hour: "2-digit",
@@ -82,6 +87,23 @@ export default {
     font-size: 0.8rem;
 }
 
+.message-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.message-header i {
+    cursor: pointer;
+    color: var(--font-color);
+}
+
+.message-header i:hover {
+    color: var(--primary);
+}
+
 .right {
     background-color: var(--message-right-color);
 }
@@ -96,12 +118,15 @@ export default {
         font-size: 0.8rem;
         margin: 0.2vh;
     }
+
     .sender {
         font-size: 0.9rem;
     }
+
     .timetoken {
         font-size: 0.7rem;
     }
+
     .subject {
         font-size: 1rem;
     }

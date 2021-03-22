@@ -4,24 +4,27 @@
             <dialog-content-important-message-info :message="message"/>
         </dialog-window>
 
-
         <div class="sender" v-if="!isOwn">{{ message.message.user.username }}</div>
-        <div class="subject">{{ message.message.subject }}</div>
+        <div class="message-header">
+            <div class="subject">{{ message.message.subject }}</div>
+            <i class="fas fa-info-circle" @click="bus.$emit('open')"></i>
+        </div>
         <div class="text">{{ message.message.text }}</div>
-        <div class="btn primary-background" @click="bus.$emit('open')">Info</div>
         <div class="row space-between">
-            <label class="row flex-start checkbox-container" v-if="!isOwn" :class="{'disabled': Object.keys(message.message.readBy).includes($store.state.pubnub.getUUID())}">
+            <label class="row flex-start checkbox-container" v-if="!isOwn"
+                   :class="{'disabled': Object.keys(message.message.readBy).includes($store.state.pubnub.getUUID())}">
                 Gelesen
-                <input type="checkbox" @click="sendReadConfirmation" :checked="Object.keys(message.message.readBy).includes($store.state.pubnub.getUUID())">
+                <input type="checkbox" @click="sendReadConfirmation"
+                       :checked="Object.keys(message.message.readBy).includes($store.state.pubnub.getUUID())">
                 <span class="checkbox"></span>
             </label>
-            <div class="timetoken">{{
-                    new Date(message.timetoken / 10000).toLocaleTimeString('de', {
-                        hour: "2-digit",
-                        minute: "2-digit"
-                    })
-                }}
-            </div>
+        </div>
+        <div class="timetoken">{{
+                new Date(message.timetoken / 10000).toLocaleTimeString('de', {
+                    hour: "2-digit",
+                    minute: "2-digit"
+                })
+            }}
         </div>
     </div>
 </template>
@@ -124,18 +127,38 @@ export default {
     margin-top: 2vh;
 }
 
+.message-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.message-header i {
+    cursor: pointer;
+    color: var(--font-color);
+}
+
+.message-header i:hover {
+    color: var(--primary);
+}
+
 @media (max-width: 576px) {
     .message {
         padding: 2.5%;
         font-size: 0.8rem;
         margin: 0.2vh;
     }
+
     .sender {
         font-size: 0.9rem;
     }
+
     .timetoken {
         font-size: 0.7rem;
     }
+
     .subject {
         font-size: 1rem;
     }
