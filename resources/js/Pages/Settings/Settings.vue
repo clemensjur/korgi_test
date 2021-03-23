@@ -417,7 +417,7 @@ a {
     }
 
     .alternate-input {
-        width: 70%;
+        width: 60%;
     }
 
     a {
