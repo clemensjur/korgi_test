@@ -45,6 +45,7 @@ export default {
         download() {
             let filename = this.message.message.fileName;
             this.$store.commit("setPopupMessage", {message: filename + " wird heruntergeladen!"});
+            console.log("Filename:", filename);
             axios
                 .post(
                     route("group.files.download"),
