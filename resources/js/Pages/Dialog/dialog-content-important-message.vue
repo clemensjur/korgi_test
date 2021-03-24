@@ -42,7 +42,7 @@ export default {
 #important-message-subject-input {
     margin-bottom: 5%;
 }
-/*TODO @Jakob Scrollbar bitte schön machen*/
+
 #important-message-text-input {
     height: 20vh;
     overflow: auto;
