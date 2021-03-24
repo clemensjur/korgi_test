@@ -7,6 +7,7 @@ use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Laravel\Jetstream\Events\TeamMemberAdded;
@@ -23,7 +24,10 @@ class UserController extends Controller
 
         $team->users()->attach(
             $user,
-            ['role' => 'editor']
+            [
+                'role' => 'editor',
+                'color' => '#FFC78E'
+            ]
         );
 
         TeamMemberAdded::dispatch($team, $user);
@@ -57,9 +61,10 @@ class UserController extends Controller
         }
 
         User::find($user->id)->delete();
+        DB::table("team_user")->where("user_id", $user->id)->delete();
 
         Auth::logout();
 
-        Redirect::route("home");
+        return Redirect::route("home");
     }
 }

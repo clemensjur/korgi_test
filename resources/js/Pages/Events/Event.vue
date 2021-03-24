@@ -4,8 +4,7 @@
             <div class="date-text">{{event.date.toLocaleDateString('de')}}</div>
         </div>
         <div class="subject">{{ event.subject }}</div>
-        <div class="description">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-            invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
+        <div class="description">
         </div>
     </div>
 </template>

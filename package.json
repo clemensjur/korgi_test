@@ -27,6 +27,8 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "dom-to-image": "^2.6.0",
+        "jspdf": "^2.3.1",
         "moment": "^2.29.1",
         "pubnub": "^4.29.11",
         "qrcode": "^1.4.4",

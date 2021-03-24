@@ -69,7 +69,7 @@
                                 </div>
                             </div>
                             <div class="link-container">
-                                <inertia-link>Passwort ändern</inertia-link>
+                                <inertia-link :href="route('password.request')">Passwort ändern</inertia-link>
                                 <a @click="deleteAccount" class="warn">Account löschen</a>
                             </div>
                         </div>
@@ -417,7 +417,7 @@ a {
     }
 
     .alternate-input {
-        width: 70%;
+        width: 60%;
     }
 
     a {

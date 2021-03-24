@@ -1,6 +1,6 @@
 <template>
     <div id="join-link-dialog">
-        <img id="qrCode" :alt="'QR-Code für: ' + link" :src="qrCodeDataUrl">
+        <img ref="content" id="qrCode" :alt="'QR-Code für: ' + link" :src="qrCodeDataUrl">
         <div id="buttons">
             <div class="btn secondary-background" @click="printQrCode"><p>Drucken</p><i class="fas fa-print"></i></div>
             <div class="btn secondary-background" @click="copyLink"><p>Kopieren</p><i class="fas fa-clipboard"></i></div>
@@ -10,6 +10,8 @@
 
 <script>
 import QRCode from "qrcode";
+import jsPDF from "jspdf";
+import domtoimage from "dom-to-image";
 
 export default {
     name: "dialog-content-join-link",
@@ -51,7 +53,32 @@ export default {
             }, 1500)
         },
         printQrCode() {
-
+            /** WITH CSS */
+            console.log(this.link);
+            var text = this.link;
+            domtoimage
+                .toPng(this.$refs.content)
+                .then(function(dataUrl) {
+                    var img = new Image();
+                    var logo = new Image();
+                    logo.src = "/images/korgi_full_l_lr.png"
+                    img.src = dataUrl;
+                    const doc = new jsPDF({
+                        orientation: "portrait",
+                        unit: "mm",
+                        format: [210, 297]
+                    });
+                    doc.addImage(logo, "JPEG", 26, 10, doc.internal.pageSize.width*0.8, 42);
+                    doc.text("KORGI-Gruppe", doc.internal.pageSize.width/2, 70, null, null, "center");
+                    doc.addImage(img, "JPEG", 80, 80);
+                    doc.text("Link:", doc.internal.pageSize.width/2, 150, null, null, "center");
+                    doc.setFontSize(12);
+                    doc.text(text, doc.internal.pageSize.width/2, 160, null, null, "center");
+                    doc.save("QR-Code");
+                })
+                .catch(function(error) {
+                    console.error("oops, something went wrong!", error);
+                });
         }
     }
 }

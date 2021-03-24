@@ -118,7 +118,6 @@ export default {
     border-radius: 0.5rem;
 }
 
-
 @media (max-width: 576px) {
 
 
