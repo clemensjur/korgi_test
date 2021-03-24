@@ -74,13 +74,7 @@ Route::group(["prefix" => "users", "middleware" => ['auth:sanctum', 'verified']]
 
 // EVENTS
 Route::group(["prefix" => "termine", "middleware" => ['auth:sanctum', 'verified']], function () {
-    Route::get('', function () {
-        return Inertia::render("Events/Events", [
-            "user" => User::find(Auth::user()->id),
-            "groups" => User::find(Auth::user()->id)->allTeams()
-        ]);
-    })->name('events.show');
-
+    Route::get('', [EventController::class, "show"])->name('events.show');
     Route::post('', [EventController::class, "store"])->name("events.store");
 });
 
@@ -99,9 +93,3 @@ Route::inertia('datenschutz', "Privacy")->name('tos');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('auth/google', [LoginController::class, 'redirectToGoogle'])->name("auth.google");
 Route::middleware(['auth:sanctum', 'verified'])->get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
-
-/*
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');
-*/

@@ -41,11 +41,15 @@ export default {
   components: { EventFilters, Event, PageLayout },
   props: {
     user: Object,
-    groups: Array
+    groups: Array,
   },
   computed: {
-    events() {
-      return this.$store.getters.getEvents;
+    async events() {
+      // return this.$store.getters.getEvents;
+      return await axios.get(route("user.events")).then(res => {
+        console.log(res.data[1]);
+        return res.data[1];
+      });
     },
   },
   data() {
@@ -54,7 +58,7 @@ export default {
     };
   },
   created() {
-    console.log("Events", this.events);
+    console.log("events:", this.events);
     this.$store.commit("setCurrentPage", { page: "Termine" });
     this.$store.commit("setShowArrow", { showArrow: false });
   },
