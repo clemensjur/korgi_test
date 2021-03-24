@@ -3,7 +3,7 @@
         <div class="date">
             <div class="date-text">{{event.date.toLocaleDateString('de')}}</div>
         </div>
-        <div class="subject">{{ event.subject }}</div>
+        <div class="subject">{{ event.name }}</div>
         <div class="description">
         </div>
     </div>
