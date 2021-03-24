@@ -34,7 +34,6 @@ export default {
         }
     },
     created() {
-        console.log(this.user)
     },
     mounted() {
         // document.getElementsByClassName("group-card")[0].style.borderColor = this.group.color;

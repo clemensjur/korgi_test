@@ -21,8 +21,6 @@ export default {
         }
     },
     mounted() {
-        console.log(this.delay)
-
         setTimeout(() => {
             this.mounted = true
         }, this.delay)

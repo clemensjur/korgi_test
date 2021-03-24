@@ -6,17 +6,17 @@ import {
     App as InertiaApp,
     plugin as InertiaPlugin
 } from "@inertiajs/inertia-vue";
-import Inertia from "@inertiajs/inertia";
 import PortalVue from "portal-vue";
 
 import Vuex from "vuex";
-import PubNub from "pubnub";
 import axios from "axios";
 
 Vue.mixin({ methods: { route } });
 Vue.use(InertiaPlugin);
 Vue.use(PortalVue);
 Vue.use(Vuex);
+
+Vue.config.productionTip = false;
 
 const app = document.getElementById("app");
 
