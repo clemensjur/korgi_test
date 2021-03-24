@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\EventController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,6 +45,8 @@ Route::group(['prefix' => 'gruppen', "middleware" => ['auth:sanctum', 'verified'
     Route::get('{url}', [GroupController::class, 'show'])->name("group.show");
     Route::get('{url}/users', [GroupController::class, 'users'])->name('group.users');
     Route::get("{url}/files", [FileController::class, "show"])->name("group.files.show");
+    Route::get("{url}/events", [EventController::class, "group_events"])->name("group.events");
+
     Route::post("files/post", [FileController::class, "store"])->name("group.files.store");
     Route::post("files/get", [FileController::class, "download"])->name("group.files.download");
 
@@ -59,24 +62,30 @@ Route::group(['prefix' => 'gruppen', "middleware" => ['auth:sanctum', 'verified'
     Route::post("set", [GroupController::class, "set"])->name("group.set");
 
     Route::post("get", [GroupController::class, "get"])->name("group.get");
+
 });
 
-// Users
-Route::group(["prefix" => "users"], function () {
+// USERS
+Route::group(["prefix" => "users", "middleware" => ['auth:sanctum', 'verified']], function () {
     Route::post("delete", [UserController::class, "delete"])->name("user.delete");
     Route::post("remove", [UserController::class, "remove"])->name("user.remove");
+    Route::get("events", [EventController::class, "user_events"])->name("user.events");
 });
 
 // EVENTS
-Route::get('termine', function () {
-    return Inertia::render("Events/Events", [
-        "user" => User::find(Auth::user()->id),
-        "groups" => User::find(Auth::user()->id)->allTeams()
-    ]);
-})->name('events.show');
+Route::group(["prefix" => "termine", "middleware" => ['auth:sanctum', 'verified']], function () {
+    Route::get('', function () {
+        return Inertia::render("Events/Events", [
+            "user" => User::find(Auth::user()->id),
+            "groups" => User::find(Auth::user()->id)->allTeams()
+        ]);
+    })->name('events.show');
+
+    Route::post('', [EventController::class, "store"])->name("events.store");
+});
 
 // SETTINGS
-Route::get('einstellungen', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('einstellungen', function () {
     return Inertia::render("Settings/Settings", [
         "user" => User::find(Auth::user()->id),
         "groups" => User::find(Auth::user()->id)->allTeams()
@@ -88,8 +97,8 @@ Route::inertia('stats', "Statistics")->name('stats');
 Route::inertia('impressum', "Imprint")->name('imprint');
 Route::inertia('datenschutz', "Privacy")->name('tos');
 
-Route::get('auth/google', [LoginController::class, 'redirectToGoogle'])->name("auth.google");
-Route::get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
+Route::middleware(['auth:sanctum', 'verified'])->get('auth/google', [LoginController::class, 'redirectToGoogle'])->name("auth.google");
+Route::middleware(['auth:sanctum', 'verified'])->get('auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
 
 /*
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

@@ -41,6 +41,7 @@ export default {
   components: { EventFilters, Event, PageLayout },
   props: {
     user: Object,
+    groups: Array
   },
   computed: {
     events() {
@@ -53,6 +54,7 @@ export default {
     };
   },
   created() {
+    console.log("Events", this.events);
     this.$store.commit("setCurrentPage", { page: "Termine" });
     this.$store.commit("setShowArrow", { showArrow: false });
   },

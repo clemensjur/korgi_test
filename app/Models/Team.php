@@ -7,7 +7,7 @@ use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\Team as JetstreamTeam;
 use App\Models\Chat;
-use App\Models\User;
+use App\Models\Event;
 // use Illuminate\Database\Eloquent\Concerns\HasRelationships;
 
 class Team extends JetstreamTeam
@@ -28,6 +28,11 @@ class Team extends JetstreamTeam
     function chats()
     {
         return $this->hasMany(Chat::class);
+    }
+
+    function events()
+    {
+        return $this->hasMany(Event::class);
     }
 
     /**
