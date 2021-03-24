@@ -83,9 +83,7 @@ class GroupController extends Controller
     function show(Request $request, $url)
     {
         $user = User::find(Auth::user()->id);
-
-        // route("group.show", ["url" => $url])
-        $team = Team::where("url", $url)->first();
+        $team = $user->allTeams()->where("url", $url);
 
         $teams = $user->allTeams()->where("personal_team", 0);
 
