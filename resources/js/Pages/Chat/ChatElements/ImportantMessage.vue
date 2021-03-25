@@ -1,13 +1,9 @@
 <template>
     <div class="message" v-bind:class="changeAlignment()">
-        <dialog-window :bus="bus" title="Nachrichteninfo" :info-only="true">
-            <dialog-content-important-message-info :message="message"/>
-        </dialog-window>
-
         <div class="sender" v-if="!isOwn">{{ message.message.user.username }}</div>
         <div class="message-header">
             <div class="subject">{{ message.message.subject }}</div>
-            <i class="fas fa-info-circle" @click="bus.$emit('open')"></i>
+            <i class="fas fa-info-circle" @click="bus.$emit('open', message)"></i>
         </div>
         <div class="text">{{ message.message.text }}</div>
         <div class="row space-between">
@@ -16,7 +12,7 @@
                 Gelesen
                 <input type="checkbox" @click="sendReadConfirmation"
                        :checked="Object.keys(message.message.readBy).includes($store.state.pubnub.getUUID())">
-                <span class="checkbox"></span>
+                <span class="checkbox" :class="{'diabled' : disabled}"></span>
             </label>
         </div>
         <div class="timetoken">{{
@@ -39,17 +35,23 @@ export default {
     name: "important-message",
     components: {DialogContentImportantMessageInfo, DialogWindow, Label},
     props: {
-        message: Object
+        message: Object,
+        bus: Object
     },
     data() {
         return {
-            bus: new Vue(),
+            disabled: false
         }
     },
     computed: {
         isOwn() {
             return this.message.message.user.uuid === this.$store.state.pubnub.getUUID()
         },
+    },
+    created() {
+        if (Object.keys(this.message.message.readBy).includes(this.$store.state.pubnub.getUUID())) {
+            this.disabled = true;
+        }
     },
     methods: {
         changeAlignment() {
@@ -58,10 +60,11 @@ export default {
             }
         },
         sendReadConfirmation() {
-            if (!Object.keys(this.message.message.readBy).includes(this.$store.state.pubnub.getUUID())) {
-                this.$store.commit("addMessageAction", {
+            if (!this.disabled) {
+                this.$store.commit("publishReadConfirmation", {
                     message: this.message
                 })
+                this.disabled = true;
             }
         }
     }

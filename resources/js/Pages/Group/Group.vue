@@ -48,6 +48,7 @@
                                 :group="group"
                                 :chat="chats['allgemein']"
                                 :message-reply-bus="messageReplyBus"
+                                :read-confirmation-bus="readConfirmationBus"
                             />
                         </div>
                         <div class="swiper-slide">
@@ -55,12 +56,16 @@
                                 :group="group"
                                 :chat="chats['wichtig']"
                                 :message-reply-bus="messageReplyBus"
+                                :read-confirmation-bus="readConfirmationBus"
                             />
                         </div>
                     </div>
                 </div>
 
                 <div id="input-group">
+                    <dialog-window :bus="readConfirmationBus" title="Nachrichteninfo" :info-only="true">
+                        <dialog-content-important-message-info :bus="readConfirmationBus"/>
+                    </dialog-window>
                     <dialog-window
                         :bus="fileInputBus"
                         title="Datei senden"
@@ -208,10 +213,12 @@ import DialogContentPoll from "@/Pages/Dialog/dialog-content-poll";
 import axios from "axios";
 import DialogContentJoinLink from "@/Pages/Dialog/dialog-content-join-link";
 import DialogContentMessageReply from "@/Pages/Dialog/dialog-content-message-reply";
+import DialogContentImportantMessageInfo from "@/Pages/Dialog/dialog-content-important-message-info";
 
 export default {
     name: "Group",
     components: {
+        DialogContentImportantMessageInfo,
         DialogContentMessageReply,
         StoreInitializer,
         PageLayout,
@@ -248,6 +255,7 @@ export default {
             messageReplyBus: new Vue(),
             openSpecialMessages: false,
             inviteBus: new Vue(),
+            readConfirmationBus: new Vue(),
             link: route("group.join.show", {uuid: this.group.uuid}),
         };
     },

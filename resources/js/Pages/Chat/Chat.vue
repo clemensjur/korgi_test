@@ -7,6 +7,7 @@
                 :message="message"
                 :group="group"
                 :message-reply-bus="messageReplyBus"
+                :read-confirmation-bus="readConfirmationBus"
                 class="chat-element"
             />
         </div>
@@ -32,6 +33,7 @@ export default {
         group: Object,
         chat: Object,
         messageReplyBus: Object,
+        readConfirmationBus: Object
     },
     data() {
         return {

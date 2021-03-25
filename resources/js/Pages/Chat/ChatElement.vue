@@ -3,7 +3,7 @@
         <div class="chat-element" :class="{own: isOwn}" :id="message.timetoken" v-if="showMessage">
             <message v-if="message.message.messageType === 'message' && message.message.chat === 'allgemein'"
                      :message="message" v-on:open="(payload) => messageReplyBus.$emit('open', payload)"/>
-            <important-message v-if="message.message.messageType === 'importantMessage'" :message="message"/>
+            <important-message :bus="readConfirmationBus" v-if="message.message.messageType === 'importantMessage'" :message="message"/>
             <less-important-message
                 v-if="message.message.messageType === 'message' && message.message.chat === 'wichtig'"
                 :message="message"/>
@@ -38,6 +38,7 @@ export default {
     },
     props: {
         messageReplyBus: Object,
+        readConfirmationBus: Object,
         message: Object,
         group: Object
     },
