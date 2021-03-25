@@ -9,7 +9,7 @@
                     </div>
                 </div>
                 <div id="events-container">
-                    <event v-for="event in events" v-if="event" :key="event.date+event.name" :event="event"/>
+                    <event v-for="event in events" v-if="filter(event)" :key="event.date+event.name" :event="event"/>
                 </div>
                 <div
                     class="round-btn primary-background"
@@ -65,6 +65,11 @@ export default {
         axios.get(route("user.events")).then(res => {
             res.data.forEach(events => {
                 events.forEach(event => {
+                    console.log(event.date)
+                    let date = new Date(event.date);
+                    console.log(date)
+                    date.setDate(date.getDate() + 1)
+                    console.log(date)
                     this.events.push(event)
                 })
             })
@@ -78,6 +83,30 @@ export default {
             this.bus.$emit("toggleFilters");
         },
         filter(event) {
+            if (this.filters.validGroups) {
+                return true;
+            }
+            if (!this.filters.showPastEvents) {
+                if (new Date(event.date).getTime() < new Date(Date.now()).getTime() ) {
+                    return false
+                }
+            }
+            if (this.filters.validDates.length > 0) {
+                let dateTimes = this.filters.validDates.map(date => date.getUTCFullYear() + "-" + date.getUTCMonth() + "-" + date.getUTCDate())
+                console.log(event.date)
+                console.log(dateTimes)
+
+                dateTimes = dateTimes.map(date => new Date(date).getTime())
+
+                let dateTime = event.date.getTime();
+
+                console.log(dateTime)
+                console.log(dateTimes)
+
+                if (!dateTimes.includes(dateTime)) {
+                    return false
+                }
+            }
             return true;
         }
     },
