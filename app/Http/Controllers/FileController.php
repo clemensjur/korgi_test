@@ -4,17 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Team;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
-use SoareCostin\FileVault\Facades\FileVault;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class FileController extends Controller
 {
-    function show(Request $request, $url)
+    function show($url)
     {
         $team = Team::where("url", $url)->first();
         $dirName = 'files/' . $team->name . "_" . $team->id;
@@ -34,17 +29,7 @@ class FileController extends Controller
         }
         if ($request->hasFile('file') && $request->file('file')->isValid()) {
             $path = $request->file('file')->storeAs($dirName, $request->file('file')->getClientOriginalName());
-
-            /*
-            if ($filename) {
-                FileVault::disk("ftp")->encrypt(
-                    $dirName . "/" . $request->file('file')->getClientOriginalName(),
-                    $dirName . "/" . $request->file('file')->getClientOriginalName() . ".enc"
-                );
-            }
-            */
         }
-
         return $path;
     }
 

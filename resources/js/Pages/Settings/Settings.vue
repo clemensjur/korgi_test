@@ -220,6 +220,7 @@ export default {
     };
   },
   created() {
+    console.log(this.user, this.groups);
     this.$store.commit("setCurrentPage", { page: "Einstellungen" });
     this.$store.commit("setShowArrow", { showArrow: false });
   },
