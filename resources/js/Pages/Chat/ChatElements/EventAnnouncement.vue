@@ -3,12 +3,12 @@
         <div class="sender" v-if="!isOwn">{{ message.message.user.username }}</div>
         <div class="message-header">
             <div class="subject">{{ message.message.subject }}</div>
-            <div class="text">{{ message.message.text }}</div>
             <i class="fas fa-info-circle" @click="bus.$emit('open')"></i>
         </div>
         <div class="date"><span style="font-weight: bold">Datum:</span> {{ weekdayNames[date.getDay()] }},
             {{ date.toLocaleDateString('de') }}
         </div>
+        <div class="text">{{ message.message.text }}</div>
         <div class="timetoken">{{
                 new Date(message.timetoken / 10000).toLocaleTimeString('de', {
                     hour: "2-digit",
@@ -81,6 +81,10 @@ export default {
     font-size: 1.1rem;
     font-weight: bold;
     margin-bottom: 0.5vh;
+}
+
+.date {
+    margin-bottom: 0.5rem;
 }
 
 .subject {

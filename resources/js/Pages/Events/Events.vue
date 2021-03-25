@@ -88,16 +88,17 @@ export default {
 #events-content {
     width: 100%;
     background-color: var(--background-color-alternate);
-    overflow: auto;
 }
 
 #events-container {
     margin-top: 2vh;
     display: flex;
     position: relative;
-    flex-direction: column;
-    flex-wrap: wrap;
     justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    height: 80%;
 }
 
 .events-header {
@@ -141,17 +142,17 @@ export default {
 }
 
 @media (min-width: 576px) {
-    #events-content::-webkit-scrollbar {
-        margin-left: -1rem;
-        width: 1rem;
+    #events-container::-webkit-scrollbar {
+        margin-left: -0.5rem;
+        width: 0.5rem;
     }
 
-    #events-content::-webkit-scrollbar-track {
+    #events-container::-webkit-scrollbar-track {
         background: transparent;
         border-radius: 0.5rem;
     }
 
-    #events-content::-webkit-scrollbar-thumb {
+    #events-container::-webkit-scrollbar-thumb {
         background-color: #ffa88e;
         border-radius: 0.5rem;
     }
