@@ -3,7 +3,7 @@
         <div class="sender" v-if="!isOwn">{{ message.message.user.username }}</div>
         <div class="message-header">
             <div class="subject">{{ message.message.subject }}</div>
-            <i class="fas fa-info-circle" @click="bus.$emit('open', message)"></i>
+            <i class="fas fa-info-circle" v-if="isOwn" @click="bus.$emit('open', message)"></i>
         </div>
         <div class="text">{{ message.message.text }}</div>
         <div class="row space-between">
