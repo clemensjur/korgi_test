@@ -91,7 +91,9 @@
                             erhältst du eine E-Mail mit den gesammelten Daten.
                             <br/>
                         </div>
-                        <div class="btn primary-background">Daten anfordern</div>
+                        <a class="mail" :href="'mailto:contact@korgi.at?subject=Daten anfordern&body=E-Mail: ' + this.usermail + ' Username: ' + this.username">
+                            <div class="btn primary-background">Daten anfordern</div>
+                        </a>
                     </div>
                 </div>
 
@@ -268,6 +270,12 @@ export default {
     color: var(--font-color);
     font-size: 1rem;
     height: 100%;
+}
+
+.mail {
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
 }
 
 .item {
