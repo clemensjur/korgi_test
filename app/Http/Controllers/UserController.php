@@ -8,7 +8,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Laravel\Jetstream\Events\TeamMemberAdded;
 use Laravel\Jetstream\Events\TeamMemberRemoved;
@@ -17,8 +16,6 @@ class UserController extends Controller
 {
     function store(Request $request)
     {
-        Log::info("Adding user to team");
-
         $user = User::find($request->userId);
         $team = Team::where("uuid", $request->uuid)->first();
 
@@ -47,12 +44,9 @@ class UserController extends Controller
         }
     }
 
-    function delete(Request $request)
+    function delete()
     {
-        $user = Auth::user();
-
-        // Log::info($user);
-
+        $user = User::find(Auth::user()->id);
         $teams = $user->allTeams();
 
         foreach ($teams as $team) {
