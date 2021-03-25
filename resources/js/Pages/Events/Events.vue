@@ -63,7 +63,6 @@ export default {
             this.filters = filters
         })
         axios.get(route("user.events")).then(res => {
-            console.log(res[1].event.team_url)
             res.data.forEach(events => {
                 events.forEach(event => {
                     event.date = new Date(parseInt(event.date));
@@ -91,7 +90,9 @@ export default {
         },
         filter(event) {
             if (this.filters.validGroups) {
-                return true;
+                if (event.team_url !== this.filters.validGroups) {
+                    return false
+                }
             }
             if (!this.filters.showPastEvents) {
                 if (new Date(event.date).getTime() < new Date(Date.now()).getTime() ) {
