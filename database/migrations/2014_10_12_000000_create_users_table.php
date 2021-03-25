@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string("google_id")->nullable();
             $table->string('password');
             $table->uuid("uuid")->nullable();
+            $table->boolean("theme")->default(false);
             $table->foreignId('current_team_id')->nullable();
             $table->text('profile_photo_path')->nullable();
             $table->timestamp('last_message')->nullable();

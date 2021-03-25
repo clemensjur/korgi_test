@@ -26,12 +26,12 @@
  */
 
 /*!
- * vuex v3.6.0
- * (c) 2020 Evan You
+ * vuex v3.6.2
+ * (c) 2021 Evan You
  * @license MIT
  */
 
-/*! 4.29.10 / Consumer  */
+/*! 4.29.11 / Consumer  */
 
 /*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 

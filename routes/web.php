@@ -70,6 +70,9 @@ Route::group(["prefix" => "users", "middleware" => ['auth:sanctum', 'verified']]
     Route::post("delete", [UserController::class, "delete"])->name("user.delete");
     Route::post("remove", [UserController::class, "remove"])->name("user.remove");
     Route::get("events", [EventController::class, "user_events"])->name("user.events");
+    Route::patch("theme", [UserController::class, "update_theme"])->name("user.update.theme");
+    Route::patch("name", [UserController::class, "update_name"])->name("user.update.name");
+    Route::patch("mail", [UserController::class, "update_mail"])->name("user.update.mail");
 });
 
 // EVENTS

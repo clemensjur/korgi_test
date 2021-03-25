@@ -67,4 +67,32 @@ class UserController extends Controller
 
         return Redirect::route("home");
     }
+
+    function update_theme(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $user->update([
+            "theme" => $request->theme
+        ]);
+        return response()->json($user);
+    }
+
+    function update_name(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $user->update([
+            "name" => $request->name,
+        ]);
+        return response()->json($user);
+    }
+
+    function update_mail(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        $user->update([
+            "email_verified_at" => null,
+            "email" => $request->email,
+        ]);
+        return response()->json($user);
+    }
 }
