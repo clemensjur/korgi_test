@@ -50,7 +50,7 @@ function setLastMessage(groupName) {
                 groupId: res.id,
                 last_message: generateLaravelTimestamp()
             })
-            .then(res => console.log(res));
+            //.then(res => console.log(res));
     });
 }
 
@@ -261,6 +261,7 @@ const store = new Vuex.Store({
                             name: payload.subject,
                             description: payload.text
                         })
+                        .then(res => console.log(res));
                         // .then(res => {
                         //     store.commit("addEvent", {
                         //         subject: payload.subject,
