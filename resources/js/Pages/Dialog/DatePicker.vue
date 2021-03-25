@@ -49,7 +49,7 @@ export default {
     },
     computed: {
         date() {
-            return new Date(this.year, this.month, 1, 1, 1, 1, 1);
+            return new Date(this.year, this.month, 1, 0, 0, 0, 0);
         },
         dates() {
             let date = this.date;

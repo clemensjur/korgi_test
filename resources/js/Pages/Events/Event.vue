@@ -1,8 +1,8 @@
 <template>
     <div class="event">
         <div class="date">
-            <div class="date-text">{{date.toLocaleDateString('de')}}</div>
-            <div class="group">{{ event.group }}</div>
+            <div class="date-text">{{event.date.toLocaleDateString('de')}}</div>
+            <div class="group">{{ event.team_name }}</div>
         </div>
         <div class="subject">{{ event.name }}</div>
         <div class="description">
@@ -17,11 +17,6 @@ export default {
     props: {
         event: Object
     },
-    computed: {
-        date() {
-            return new Date(this.event.date)
-        }
-    }
 }
 </script>
 

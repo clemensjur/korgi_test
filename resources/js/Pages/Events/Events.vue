@@ -9,7 +9,7 @@
                     </div>
                 </div>
                 <div id="events-container">
-                    <event v-for="event in events" v-if="event" :key="event.date+event.name" :event="event"/>
+                    <event v-for="event in events" v-if="filter(event)" :key="event.date+event.name" :event="event"/>
                 </div>
                 <div
                     class="round-btn primary-background"
@@ -65,10 +65,21 @@ export default {
         axios.get(route("user.events")).then(res => {
             res.data.forEach(events => {
                 events.forEach(event => {
+                    event.date = new Date(parseInt(event.date));
                     this.events.push(event)
                 })
             })
 
+        }).then(() => {
+            this.events.sort((e1, e2) => {
+                if (e1.date.getTime() > e2.date.getTime()) {
+                    return 1;
+                }
+                if (e1.date.getTime() === e2.date.getTime()) {
+                    return 0;
+                }
+                return -1;
+            });
         });
         this.$store.commit("setCurrentPage", {page: "Termine"});
         this.$store.commit("setShowArrow", {showArrow: false});
@@ -78,6 +89,25 @@ export default {
             this.bus.$emit("toggleFilters");
         },
         filter(event) {
+            if (this.filters.validGroups) {
+                if (event.team_url !== this.filters.validGroups) {
+                    return false
+                }
+            }
+            if (!this.filters.showPastEvents) {
+                if (new Date(event.date).getTime() < new Date(Date.now()).getTime() ) {
+                    return false
+                }
+            }
+            if (this.filters.validDates.length > 0) {
+                let dateTimes = this.filters.validDates.map(date => date.getTime())
+
+                let dateTime = event.date.getTime();
+
+                if (!dateTimes.includes(dateTime)) {
+                    return false
+                }
+            }
             return true;
         }
     },
