@@ -55,7 +55,7 @@ function setLastMessage(groupName) {
 }
 
 function generateHEXColor() {
-    return Math.floor(Math.random()*16777215).toString(16);
+    return Math.floor(Math.random() * 16777215).toString(16);
 }
 
 const store = new Vuex.Store({
@@ -84,7 +84,7 @@ const store = new Vuex.Store({
     },
     mutations: {
         setPopupMessage(state, payload) {
-            Vue.set(state, "popupMessage", payload.message)
+            Vue.set(state, "popupMessage", payload.message);
         },
         setState(state, payload) {
             Vue.set(state, "pubnub", payload.pubnub);
@@ -95,13 +95,13 @@ const store = new Vuex.Store({
             state.groups[payload.group].color = payload.color;
         },
         setShowArrow(state, payload) {
-            Vue.set(state, 'showArrow', payload.showArrow)
+            Vue.set(state, "showArrow", payload.showArrow);
         },
         setShowGroupInfo(state, payload) {
-            Vue.set(state, 'showGroupInfo', payload.showGroupInfo)
+            Vue.set(state, "showGroupInfo", payload.showGroupInfo);
         },
         setCurrentPage(state, payload) {
-            Vue.set(state, 'currentPage', payload.page)
+            Vue.set(state, "currentPage", payload.page);
         },
         toggleDarkmode(state) {
             state.user.settings.darkmode = !state.user.settings.darkmode;
@@ -195,7 +195,7 @@ const store = new Vuex.Store({
             });
         },
         publishMessage(state, payload) {
-            console.log("App.js: publish Message", payload)
+            console.log("App.js: publish Message", payload);
             state.pubnub.publish({
                 channel: payload.channel,
                 message: {
@@ -237,25 +237,38 @@ const store = new Vuex.Store({
             });
         },
         publishEventAnnouncement(state, payload) {
-            setLastMessage(payload.group);
-            state.pubnub.publish({
-                channel: payload.channel,
-                message: {
-                    text: payload.message,
-                    date: payload.date,
-                    user: state.user,
-                    group: payload.group,
-                    chat: payload.chat,
-                    messageType: "eventAnnouncement"
-                }
-            });
-
-            // Unnötig, wenn groups vom server kommen
-            store.commit("addEvent", {
-                subject: payload.message,
-                date: payload.date,
-                group: payload.group
-            });
+            state.pubnub
+                .publish({
+                    channel: payload.channel,
+                    message: {
+                        text: payload.message,
+                        date: payload.date,
+                        user: state.user,
+                        group: payload.group,
+                        groupId: payload.groupId,
+                        chat: payload.chat,
+                        messageType: "eventAnnouncement"
+                    }
+                })
+                .then(() => setLastMessage(payload.group))
+                .then(() => {
+                    axios
+                        .post(route("events.store"), {
+                            group: payload.group,
+                            groupId: payload.groupId,
+                            date: payload.date,
+                            name: payload.message
+                        })
+                        .then(res => {
+                            console.log(res);
+                            // Unnötig, wenn groups vom server kommen
+                            store.commit("addEvent", {
+                                subject: payload.message,
+                                date: payload.date,
+                                group: payload.group
+                            });
+                        });
+                });
         },
         publishDateVoting(state, payload) {
             setLastMessage(payload.group);
@@ -284,13 +297,14 @@ const store = new Vuex.Store({
                 payload.message.message.group,
                 payload.message.message.chat,
                 payload.message.channel
-            )
+            );
         },
         addEvent(state, payload) {
             // TODO push to server
 
             let newEvent = {
-                subject: payload.subject,
+                name: payload.subject,
+                description: "",
                 date: payload.date
             };
 
@@ -302,52 +316,46 @@ const store = new Vuex.Store({
             );
         },
         addGroup(state, payload) {
-            axios.post("/gruppen", {
-                name: payload.name,
-                color: "#FFC78E"
-            }).then((response) => {
-                Vue.set(
-                    state.groups,
-                    response.data[payload.name].url,
-                    response.data[payload.name]
-                );
-            });
+            axios
+                .post("/gruppen", {
+                    name: payload.name,
+                    color: "#FFC78E"
+                })
+                .then(response => {
+                    Vue.set(
+                        state.groups,
+                        response.data[payload.name].url,
+                        response.data[payload.name]
+                    );
+                });
         },
         deleteGroup(state, payload) {
-            axios
-                .post(route("group.delete"), {
-                    uuid: payload.group.uuid,
-                });
+            axios.post(route("group.delete"), {
+                uuid: payload.group.uuid
+            });
 
-            Vue.delete(
-                state.groups,
-                payload.group.url
-            );
+            Vue.delete(state.groups, payload.group.url);
         },
         leaveGroup(state, payload) {
-            axios
-                .post(route("group.leave"), {
-                    uuid: payload.group.uuid,
-                });
+            axios.post(route("group.leave"), {
+                uuid: payload.group.uuid
+            });
 
-            Vue.delete(
-                state.groups,
-                payload.group.url
-            );
+            Vue.delete(state.groups, payload.group.url);
         }
     },
     getters: {
         getPopupMessage: state => {
-            return state.popupMessage
+            return state.popupMessage;
         },
         getShowArrow: state => {
-            return state.showArrow
+            return state.showArrow;
         },
         getShowGroupInfo: state => {
-            return state.showGroupInfo
+            return state.showGroupInfo;
         },
         getCurrentPage: state => {
-            return state.currentPage
+            return state.currentPage;
         },
         getUser: state => {
             return state.user;

@@ -10,6 +10,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable // implements MustVerifyEmail
 {
@@ -58,4 +59,9 @@ class User extends Authenticatable // implements MustVerifyEmail
     protected $appends = [
         'profile_photo_url',
     ];
+
+    function events() {
+        Log::info($this->teams);
+        return $this->teams()->events;
+    }
 }
