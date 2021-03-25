@@ -36,7 +36,14 @@ class EventController extends Controller
         ]);
         $event->team()->associate($team);
 
-        return $event;
+        return [
+            "name" => $event->name,
+            "date" => $event->date,
+            "description" => $event->description,
+            "team_id" => $team->id,
+            "team_url" => $team->url,
+            "team_name" => $team->name
+        ];
     }
 
     function user_events()
