@@ -85,7 +85,7 @@ Route::group(["prefix" => "termine", "middleware" => ['auth:sanctum', 'verified'
 Route::middleware(['auth:sanctum', 'verified'])->get('einstellungen', function () {
     return Inertia::render("Settings/Settings", [
         "user" => User::find(Auth::user()->id),
-        "groups" => User::find(Auth::user()->id)->allTeams()
+        "groups" => User::find(Auth::user()->id)->allTeams()->where("personal_team", 0)
     ]);
 })->name('settings.show');
 

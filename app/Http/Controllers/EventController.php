@@ -18,7 +18,7 @@ class EventController extends Controller
         Log::info($this->user_events());
         return Inertia::render("Events/Events", [
             "user" => User::find(Auth::user()->id),
-            "groups" => User::find(Auth::user()->id)->allTeams(),
+            "groups" => User::find(Auth::user()->id)->allTeams()->where("personal_team", 0),
         ]);
     }
 
