@@ -1,5 +1,5 @@
 <template>
-    <page-layout>
+    <page-layout :groups="groups" :user="user">
         <div id="events">
             <div id="events-content" :class="{ active: active }">
                 <div class="events-header">
@@ -56,6 +56,8 @@ export default {
         };
     },
     created() {
+        console.log("Events.vue user:", this.user)
+        console.log("Events.vue groups:", this.groups)
         this.bus.$on("toggleFilters", () => {
             this.active = !this.active
         })

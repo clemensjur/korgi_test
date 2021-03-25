@@ -31,8 +31,8 @@ export default {
         };
     },
     created() {
-        console.log("user:", this.user)
-        console.log("groups:", this.groups)
+        console.log("pageLayout user:", this.user)
+        console.log("pageLayout groups:", this.groups)
         this.bus.$on("toggleMenu", () => {this.isActive = !this.isActive})
     }
 };
