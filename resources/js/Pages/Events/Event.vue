@@ -2,6 +2,7 @@
     <div class="event">
         <div class="date">
             <div class="date-text">{{date.toLocaleDateString('de')}}</div>
+            <div class="group">{{ event.group }}</div>
         </div>
         <div class="subject">{{ event.name }}</div>
         <div class="description">
@@ -45,6 +46,10 @@ export default {
     border-top-left-radius: 1rem;
     border-top-right-radius: 1rem;
     background-color: var(--primary);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .date-text {
