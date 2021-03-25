@@ -32,14 +32,26 @@
                       <i class="fas fa-times" />
                     </div>
                   </Transition>
+                </div>
 
-                  <Transition name="fade">
-                    <div
-                      class="round-btn secondary-background"
-                      v-if="nameInputActive"
-                      @click="updateName"
-                    >
-                      <i class="fas fa-check" />
+                <div class="item">
+                    <div class="subject">Privatsphäre</div>
+                    <div class="content">
+                        <div id="privacy">
+              <span class="small-headline"
+              >Alle gesammelten Daten anfordern</span
+              >
+                            <br/>
+                            Chatnachrichten, Nutzerdaten, Verschickte Dateien, ...
+                            <br/>
+                            <br/>
+                            Der Vorgang kann einzige Zeit in Anspruch nehmen. Nach Abschluss
+                            erhältst du eine E-Mail mit den gesammelten Daten.
+                            <br/>
+                        </div>
+                        <a class="mail" :href="'mailto:contact@korgi.at?subject=Daten anfordern&body=E-Mail: ' + this.usermail + ' Username: ' + this.username">
+                            <div class="btn primary-background">Daten anfordern</div>
+                        </a>
                     </div>
 
                     <div
@@ -52,7 +64,6 @@
                     >
                       <i class="fas fa-pen" />
                     </div>
-                  </Transition>
                 </div>
               </div>
               <div class="flex-item-container">
@@ -333,6 +344,12 @@ export default {
   color: var(--font-color);
   font-size: 1rem;
   height: 100%;
+}
+
+.mail {
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
 }
 
 .item {

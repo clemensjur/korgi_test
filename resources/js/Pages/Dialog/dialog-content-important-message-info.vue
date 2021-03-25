@@ -16,7 +16,17 @@
 export default {
     name: "dialog-content-important-message-info",
     props: {
-        message: Object
+        bus: Object
+    },
+    data() {
+        return {
+            message: undefined
+        }
+    },
+    created() {
+        this.bus.$on("open", message => {
+            this.message = message
+        })
     },
     methods: {
         // Time in ms (Integer)

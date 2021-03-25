@@ -33024,6 +33024,11 @@ html.darkmode {
   border: 2px solid var(--font-color);
 }
 
+.checkbox.disabled {
+  cursor: default;
+  pointer-events: none;
+}
+
 input:checked ~ .checkbox {
   background-color: var(--primary);
   border: 2px solid var(--primary);

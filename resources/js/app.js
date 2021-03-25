@@ -11,7 +11,7 @@ import PortalVue from "portal-vue";
 import Vuex from "vuex";
 import axios from "axios";
 
-Vue.mixin({ methods: { route } });
+Vue.mixin({methods: {route}});
 Vue.use(InertiaPlugin);
 Vue.use(PortalVue);
 Vue.use(Vuex);
@@ -44,13 +44,13 @@ function generateLaravelTimestamp() {
 }
 
 function setLastMessage(groupName) {
-    axios.post(route("group.get"), { groupName: groupName }).then(res => {
+    axios.post(route("group.get"), {groupName: groupName}).then(res => {
         axios
             .post(route("group.set"), {
                 groupId: res.id,
                 last_message: generateLaravelTimestamp()
             })
-            //.then(res => console.log(res));
+        //.then(res => console.log(res));
     });
 }
 
@@ -118,10 +118,26 @@ const store = new Vuex.Store({
             Vue.set(
                 state.groups[payload.group].channels[payload.chat].messages[
                     payload.messageTimetoken
-                ].message.results,
+                    ].message.results,
                 payload.user.uuid,
                 payload.answerKey
             );
+            store.state.methods.saveMessagesToLocalStorage(
+                payload.group,
+                payload.chat,
+                payload.channel
+            );
+        },
+        addReadConfirmation(state, payload) {
+            Vue.set(
+                state.groups[payload.group].channels[payload.chat].messages[payload.messageTimetoken].message.readBy,
+                payload.user.uuid,
+                {
+                    user: payload.user,
+                    time: payload.time
+                }
+            );
+
             store.state.methods.saveMessagesToLocalStorage(
                 payload.group,
                 payload.chat,
@@ -146,26 +162,27 @@ const store = new Vuex.Store({
                 }
             });
         },
-
-        // TODO Rename
-        // addMessageAction(state, payload) {
-        //     state.pubnub.addMessageAction(
-        //         {
-        //             channel: payload.message.channel,
-        //             messageTimetoken: payload.message.timetoken,
-        //             action: {
-        //                 type: 'readConfirm',
-        //                 value: JSON.stringify({
-        //                     user: state.user,
-        //                     time: new Date(),
-        //                     chat: payload.message.message.chat,
-        //                     group: payload.message.message.group,
-        //                     channel: payload.message.channel
-        //                 }),
-        //             }
-        //         }
-        //     );
-        // },
+        publishReadConfirmation(state, payload) {
+            state.pubnub.addMessageAction(
+                {
+                    channel: payload.message.channel,
+                    messageTimetoken: payload.message.timetoken,
+                    action: {
+                        type: 'readConfirm',
+                        value: JSON.stringify({
+                            user: state.user,
+                            time: new Date().getTime(),
+                            chat: payload.message.message.chat,
+                            group: payload.message.message.group,
+                            channel: payload.message.channel
+                        }),
+                    }
+                },
+                function(status, response) {
+                    console.log(status, response);
+                }
+            );
+        },
         publishPoll(state, payload) {
             state.pubnub.publish({
                 channel: payload.channel,
@@ -257,19 +274,19 @@ const store = new Vuex.Store({
                         .post(route("events.store"), {
                             group: payload.group,
                             groupId: payload.groupId,
-                            date: payload.date,
+                            date: (payload.date.getTime()).toString(),
                             name: payload.subject,
                             description: payload.text
                         })
                         .then(res => console.log(res));
-                        // .then(res => {
-                        //     store.commit("addEvent", {
-                        //         subject: payload.subject,
-                        //         text: payload.text,
-                        //         date: payload.date,
-                        //         group: payload.group
-                        //     });
-                        // });
+                    // .then(res => {
+                    //     store.commit("addEvent", {
+                    //         subject: payload.subject,
+                    //         text: payload.text,
+                    //         date: payload.date,
+                    //         group: payload.group
+                    //     });
+                    // });
                 });
         },
         publishDateVoting(state, payload) {
@@ -290,7 +307,7 @@ const store = new Vuex.Store({
             Vue.set(
                 state.groups[payload.message.message.group].channels[
                     payload.message.message.chat
-                ].messages,
+                    ].messages,
                 payload.message.timetoken,
                 payload.message
             );
