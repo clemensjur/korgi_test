@@ -1,12 +1,7 @@
 <template>
     <page-layout>
         <div id="events">
-            <!--navigation :user="user.name" :bus="bus" /-->
-            <div id="events-content">
-                <!--        <div v-for="event in events">-->
-                <!--            <p>{{event.subject}}</p>-->
-                <!--            <p>{{event.date.toString()}}</p>-->
-                <!--        </div>-->
+            <div id="events-content" :class="{ active: active }">
                 <div class="events-header">
                     <h1 class="title">Termine</h1>
                     <div class="btn primary-background" @click="toggleFilters">
@@ -14,7 +9,7 @@
                     </div>
                 </div>
                 <div id="events-container">
-                    <event v-for="event in events" :key="event.date" :event="event"/>
+                    <event v-for="event in events" :key="event.date+event.name" :event="event"/>
                 </div>
                 <div
                     class="round-btn primary-background"
@@ -51,13 +46,21 @@ export default {
     data() {
         return {
             bus: new Vue(),
-            events: undefined
+            events: [],
+            active: false
         };
     },
     created() {
+        this.bus.$on("toggleFilters", () => {
+            this.active = !this.active
+        })
         axios.get(route("user.events")).then(res => {
-            console.log(res.data[1]);
-            this.events = res.data[1]
+            res.data.forEach(events => {
+                events.forEach(event => {
+                    this.events.push(event)
+                })
+            })
+
         });
         this.$store.commit("setCurrentPage", {page: "Termine"});
         this.$store.commit("setShowArrow", {showArrow: false});
@@ -76,6 +79,10 @@ export default {
     flex-direction: row;
     width: 100%;
     height: 100%;
+}
+
+#events-content.active {
+    width: 60vw;
 }
 
 #events-content {

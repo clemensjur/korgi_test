@@ -1,7 +1,7 @@
 <template>
     <div class="event">
         <div class="date">
-            <div class="date-text">{{new Date(event.date).toLocaleDateString('de')}}</div>
+            <div class="date-text">{{date.toLocaleDateString('de')}}</div>
         </div>
         <div class="subject">{{ event.name }}</div>
         <div class="description">
@@ -15,6 +15,11 @@ export default {
     name: "Event",
     props: {
         event: Object
+    },
+    computed: {
+        date() {
+            return new Date(this.event.date)
+        }
     }
 }
 </script>
@@ -56,6 +61,7 @@ export default {
     font-size: 1.3rem;
     color: var(--font-color)
 }
+
 .description {
     margin: 1.8vh;
     color: var(--font-color)
@@ -65,15 +71,18 @@ export default {
     .event {
         width: 90%;
     }
+
     .date-text {
         margin: 1.5vh 2vh 1.5vh 2vh;
         font-size: 1.4rem;
     }
+
     .subject {
         margin-left: 2vh;
         margin-top: 2vh;
         font-size: 1.2rem;
     }
+
     .description {
         margin: 2vh;
     }

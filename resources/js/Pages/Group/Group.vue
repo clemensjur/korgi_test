@@ -14,22 +14,6 @@
                                 {{ group.name }}
                             </div>
                         </div>
-
-                        <!--inertia-link
-                                        :href="route('group.users', { url: this.group.url })"
-                                        style="margin-left: 2%"
-                                        class="headline"
-                                    >
-                                        Users
-                                    </inertia-link>
-
-                                    <inertia-link
-                                        :href="route('group.files.show', { url: this.group.url })"
-                                        style="margin-left: 2%"
-                                        class="headline"
-                                    >
-                                        Files
-                                    </inertia-link-->
                         <div class="btn primary-background" @click="toggleGroupInfo">
                             <p>Gruppeninfo</p>
                             <i class="fas fa-info-circle"></i>

@@ -41,14 +41,16 @@ export default {
     },
     created() {
         this.bus.$on("toggleFilters", () => {
-            this.toggleActive()
+            this.active = !this.active;
         })
     },
     methods: {
         toggleActive() {
-            this.active = !this.active;
+            this.bus.$emit("toggleFilters");
         },
-        saveDate() {}
+        saveDate() {
+
+        }
     }
 }
 </script>
@@ -56,7 +58,11 @@ export default {
 <style scoped>
 
 #filters {
-    width: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+
+    width: 20vw;
     height: 100%;
     color: var(--font-color);
     overflow: hidden;
@@ -69,14 +75,14 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    /*padding: 1% 0 1% 0;*/
 
-    transition: 0.2s ease;
+    padding: 1%;
+
+    transform: translateX(100%);
 }
 
 #filters.active {
-    width: 28%;
-    padding: 2vh;
+    transform: translateX(0);
 }
 
 ::placeholder {

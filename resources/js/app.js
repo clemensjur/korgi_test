@@ -300,9 +300,6 @@ const store = new Vuex.Store({
             );
         },
         addEvent(state, payload) {
-            console.log("addEvent", payload)
-            // TODO push to server
-
             let newEvent = {
                 subject: payload.subject,
                 text: payload.text,
