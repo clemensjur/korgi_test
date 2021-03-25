@@ -63,17 +63,24 @@ export default {
             this.filters = filters
         })
         axios.get(route("user.events")).then(res => {
+            console.log(res[1].event.team_url)
             res.data.forEach(events => {
                 events.forEach(event => {
-                    console.log(event.date)
-                    let date = new Date(event.date);
-                    console.log(date)
-                    date.setDate(date.getDate() + 1)
-                    console.log(date)
+                    event.date = new Date(parseInt(event.date));
                     this.events.push(event)
                 })
             })
 
+        }).then(() => {
+            this.events.sort((e1, e2) => {
+                if (e1.date.getTime() > e2.date.getTime()) {
+                    return 1;
+                }
+                if (e1.date.getTime() === e2.date.getTime()) {
+                    return 0;
+                }
+                return -1;
+            });
         });
         this.$store.commit("setCurrentPage", {page: "Termine"});
         this.$store.commit("setShowArrow", {showArrow: false});
@@ -92,16 +99,9 @@ export default {
                 }
             }
             if (this.filters.validDates.length > 0) {
-                let dateTimes = this.filters.validDates.map(date => date.getUTCFullYear() + "-" + date.getUTCMonth() + "-" + date.getUTCDate())
-                console.log(event.date)
-                console.log(dateTimes)
-
-                dateTimes = dateTimes.map(date => new Date(date).getTime())
+                let dateTimes = this.filters.validDates.map(date => date.getTime())
 
                 let dateTime = event.date.getTime();
-
-                console.log(dateTime)
-                console.log(dateTimes)
 
                 if (!dateTimes.includes(dateTime)) {
                     return false

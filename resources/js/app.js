@@ -257,7 +257,7 @@ const store = new Vuex.Store({
                         .post(route("events.store"), {
                             group: payload.group,
                             groupId: payload.groupId,
-                            date: payload.date,
+                            date: (payload.date.getTime()).toString(),
                             name: payload.subject,
                             description: payload.text
                         })
