@@ -54,7 +54,18 @@ class EventController extends Controller
         $events = [];
 
         foreach ($teams as $team) {
-            array_push($events, $team->events);
+            $event = [];
+            foreach ($team->events as $eventModel) {
+                array_push($event, [
+                    "name" => $eventModel->name,
+                    "date" => $eventModel->date,
+                    "description" => $eventModel->description,
+                    "team_id" => $team->id,
+                    "team_name" => $team->name,
+                    "team_url" => $team->url
+                ]);
+            }
+            array_push($events, $event);
         }
 
         return $events;
