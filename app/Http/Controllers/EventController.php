@@ -34,6 +34,8 @@ class EventController extends Controller
         ]);
         $event->team()->associate($team);
 
+        Log::info($team);
+
         return [
             "name" => $event->name,
             "date" => $event->date,
