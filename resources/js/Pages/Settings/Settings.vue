@@ -264,10 +264,12 @@ export default {
         })
         .then((res) => {
           console.log(res);
+          /*
           axios.post(route("logout")).then((res) => {
             console.log(res);
             this.$inertia.visit(route("verification.notice"));
           });
+          */
         });
     },
     changeTheme() {
