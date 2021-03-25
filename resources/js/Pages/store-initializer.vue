@@ -44,20 +44,16 @@ export default {
     pubnubAddListener() {
       this.$store.state.pubnub.addListener({
         message: (event) => {
-          console.log("App.vue: Received Message");
           this.$store.commit("addMessage", {
             message: event,
           });
 
-          console.log(event.message.group);
           this.$inertia.reload(
             route("group.show", { url: event.message.group })
           );
         },
         messageAction: (event) => {
           let value = JSON.parse(event.data.value);
-
-          console.log("MessageAction received", value, event.data, event);
 
           switch (event.data.type) {
             case "poll":
@@ -73,8 +69,6 @@ export default {
               });
               break;
           }
-          console.log("MessageAction received 2");
-          console.log(value.group);
           this.$inertia.reload(route("group.show", { url: value.group }));
         },
       });
@@ -107,16 +101,12 @@ export default {
       return JSON.parse(localStorage.getItem(channel)) || {};
     },
     getAllMissedMessagesFromPubNub() {
-      console.log("getAllMissedMessagesFromPubNub");
       Object.keys(this.$store.state.groups).forEach((group) => {
-        console.log("   Group:", group);
         Object.keys(this.$store.state.groups[group].channels).forEach(
           (chat) => {
-            console.log("       Chat:", chat);
             let channel = this.$store.state.groups[group].channels[chat];
             let messageValues = Object.values(channel.messages);
             if (messageValues.length > 0) {
-              console.log("           Old Messages Found");
               this.getMissedMessagesFromPubNub(
                 group,
                 chat,
@@ -143,20 +133,12 @@ export default {
           count: 25, // default/max is 25
         },
         (status, response) => {
-          console.log("getMissedMessagesFromPubNub for: ", group, chat);
-          console.log("   With status:", status);
           if (response) {
-            console.log("   Received response:", response);
             let newMessages = Object.values(response.channels)[0];
-
-            console.log("       messages:", this.messages);
-            console.log("       newMessages:", newMessages);
 
             this.messages = this.messages.concat(newMessages);
 
             let currentTimetoken = newMessages[0].timetoken;
-            console.log("       currentTimeToken:", currentTimetoken);
-            console.log("       endTimeToken:", endTimetoken);
 
             if (currentTimetoken !== endTimetoken) {
               this.getMissedMessagesFromPubNub(
@@ -180,8 +162,6 @@ export default {
             });
 
             this.messages.shift();
-
-            console.log("       messages:", this.messages);
 
             this.messages.forEach((message) => {
               Vue.set(

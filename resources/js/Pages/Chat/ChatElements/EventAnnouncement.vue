@@ -2,7 +2,8 @@
     <div class="message" v-bind:class="changeAlignment()">
         <div class="sender" v-if="!isOwn">{{ message.message.user.username }}</div>
         <div class="message-header">
-            <div class="subject">{{ message.message.text }}</div>
+            <div class="subject">{{ message.message.subject }}</div>
+            <div class="text">{{ message.message.text }}</div>
             <i class="fas fa-info-circle" @click="bus.$emit('open')"></i>
         </div>
         <div class="date"><span style="font-weight: bold">Datum:</span> {{ weekdayNames[date.getDay()] }},
@@ -43,6 +44,13 @@ export default {
                 return 'right';
             }
         }
+    }, created() {
+        // this.$store.commit("addEvent", {
+        //     subject: this.message.message.subject,
+        //     text: this.message.message.text,
+        //     date: this.message.message.date,
+        //     group: this.message.message.group
+        // });
     }
 }
 </script>

@@ -241,7 +241,8 @@ const store = new Vuex.Store({
                 .publish({
                     channel: payload.channel,
                     message: {
-                        text: payload.message,
+                        subject: payload.subject,
+                        text: payload.text,
                         date: payload.date,
                         user: state.user,
                         group: payload.group,
@@ -257,17 +258,17 @@ const store = new Vuex.Store({
                             group: payload.group,
                             groupId: payload.groupId,
                             date: payload.date,
-                            name: payload.message
+                            name: payload.subject,
+                            description: payload.text
                         })
-                        .then(res => {
-                            console.log(res);
-                            // Unnötig, wenn groups vom server kommen
-                            store.commit("addEvent", {
-                                subject: payload.message,
-                                date: payload.date,
-                                group: payload.group
-                            });
-                        });
+                        // .then(res => {
+                        //     store.commit("addEvent", {
+                        //         subject: payload.subject,
+                        //         text: payload.text,
+                        //         date: payload.date,
+                        //         group: payload.group
+                        //     });
+                        // });
                 });
         },
         publishDateVoting(state, payload) {
@@ -284,7 +285,6 @@ const store = new Vuex.Store({
                 }
             });
         },
-        // stelle 2
         addMessage(state, payload) {
             Vue.set(
                 state.groups[payload.message.message.group].channels[
@@ -300,20 +300,16 @@ const store = new Vuex.Store({
             );
         },
         addEvent(state, payload) {
+            console.log("addEvent", payload)
             // TODO push to server
 
             let newEvent = {
-                name: payload.subject,
-                description: "",
-                date: payload.date
+                subject: payload.subject,
+                text: payload.text,
+                date: new Date(payload.date)
             };
 
             state.groups[payload.group].events.push(newEvent);
-            store.state.methods.saveMessagesToLocalStorage(
-                payload.message.message.group,
-                payload.message.message.chat,
-                payload.message.channel
-            );
         },
         addGroup(state, payload) {
             axios
