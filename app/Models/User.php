@@ -12,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Log;
 
-class User extends Authenticatable // implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use HasFactory;
@@ -27,7 +27,12 @@ class User extends Authenticatable // implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'uuid', 'google_id'
+        'name',
+        'email',
+        'password',
+        'uuid',
+        'google_id',
+        'darkmode'
     ];
 
     /**
@@ -60,8 +65,21 @@ class User extends Authenticatable // implements MustVerifyEmail
         'profile_photo_url',
     ];
 
-    function events() {
+    function events()
+    {
         Log::info($this->teams);
         return $this->teams()->events;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updating(function (User $user) {
+            if (in_array('email', $user->getChanges())) {
+                $user->email_verified_at = null;
+                $user->sendEmailVerificationNotification();
+            }
+        });
     }
 }

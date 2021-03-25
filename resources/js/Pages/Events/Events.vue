@@ -66,7 +66,6 @@ export default {
             let events = res.data[1];
             console.log(events);
             events.forEach(event => {
-                console.log(event);
                 this.events.push(event)
             })
 
