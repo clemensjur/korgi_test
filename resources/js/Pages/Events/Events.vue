@@ -63,10 +63,11 @@ export default {
             this.filters = filters
         })
         axios.get(route("user.events")).then(res => {
-            res.data.forEach(events => {
-                events.forEach(event => {
-                    this.events.push(event)
-                })
+            let events = res.data[1];
+            console.log(events);
+            events.forEach(event => {
+                console.log(event);
+                this.events.push(event)
             })
 
         });
