@@ -16,6 +16,8 @@ export default {
         };
     },
     created() {
+        console.log("user:", this.user)
+        console.log("groups:", this.groups)
         this.initStore();
         this.pubnubAddListener();
         this.pubnubSubscribe();
@@ -245,6 +247,7 @@ export default {
         //TODO aus der Datenbank holen
         getGroups() {
             let groups = this.toObject(this.groups);
+            console.log(groups)
             Object.keys(groups).forEach((group) => {
                 groups[group].channels.allgemein.messages = {};
                 groups[group].channels.wichtig.messages = {};

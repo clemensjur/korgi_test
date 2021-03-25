@@ -46,16 +46,6 @@
                 <member v-for="member in group.users" :key="member.id"
                         :member="member"></member>
             </div>
-            <!--            <div class="button-container" v-if="group.users.length > 5">-->
-            <!--                <div class="btn secondary-background" v-if="!showAll" @click="showAll=true">-->
-            <!--                    <p>{{ group.users.length - 5 }} weitere</p>-->
-            <!--                    <i class="fas fa-angle-down"/>-->
-            <!--                </div>-->
-            <!--                <div class="btn secondary-background" v-if="showAll" @click="showAll=false">-->
-            <!--                    <p>weniger</p>-->
-            <!--                    <i class="fas fa-angle-up"/>-->
-            <!--                </div>-->
-            <!--            </div>-->
         </div>
 
         <div id="group-info-invitation">
