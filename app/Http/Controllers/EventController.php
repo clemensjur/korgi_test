@@ -30,6 +30,7 @@ class EventController extends Controller
             "name" => $request->name,
             "date" => $request->date,//Carbon::parse($request->date),
             "description" => $request->description,
+            "team_id" => $team->id,
         ]);
         $event->team()->associate($team);
 
