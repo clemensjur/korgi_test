@@ -62,7 +62,6 @@ Route::group(['prefix' => 'gruppen', "middleware" => ['auth:sanctum', 'verified'
     Route::post("set", [GroupController::class, "set"])->name("group.set");
 
     Route::post("get", [GroupController::class, "get"])->name("group.get");
-
 });
 
 // USERS
@@ -82,12 +81,7 @@ Route::group(["prefix" => "termine", "middleware" => ['auth:sanctum', 'verified'
 });
 
 // SETTINGS
-Route::middleware(['auth:sanctum', 'verified'])->get('einstellungen', function () {
-    return Inertia::render("Settings/Settings", [
-        "user" => User::find(Auth::user()->id),
-        "groups" => User::find(Auth::user()->id)->allTeams()->where("personal_team", 0)
-    ]);
-})->name('settings.show');
+Route::middleware(['auth:sanctum', 'verified'])->get('einstellungen', [SettingsController::class, "show"])->name('settings.show');
 
 Route::inertia('offline', "Offline")->name('offline');
 Route::inertia('stats', "Statistics")->name('stats');

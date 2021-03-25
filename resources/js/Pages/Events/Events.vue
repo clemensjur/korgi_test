@@ -56,6 +56,7 @@ export default {
         };
     },
     created() {
+        console.log(this.user, this.groups);
         this.bus.$on("toggleFilters", () => {
             this.active = !this.active
         })
