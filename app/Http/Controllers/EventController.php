@@ -28,11 +28,8 @@ class EventController extends Controller
         Log::info($request);
         $event = Event::create([
             "name" => $request->name,
-            "date" => Carbon::parse($request->date),
+            "date" => $request->date,//Carbon::parse($request->date),
             "description" => $request->description,
-            "team_id" => $team->id,
-            "team_url" => $this->urlFormat($team->name),
-            "team_name" => $team->name,
         ]);
         $event->team()->associate($team);
 

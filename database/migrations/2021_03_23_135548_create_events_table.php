@@ -17,7 +17,7 @@ class CreateEventsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string("name")->nullable();
-            $table->date("date")->nullable();
+            $table->string("date")->nullable();
             $table->string("description")->default("");
             $table->foreignId("team_id")->references("id")->on("teams")->default(1);
         });
