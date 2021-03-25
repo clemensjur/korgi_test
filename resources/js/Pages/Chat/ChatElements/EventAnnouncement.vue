@@ -124,6 +124,10 @@ export default {
     color: var(--subject-color);
 }
 
+.text {
+    word-break: break-word;
+}
+
 @media (max-width: 576px) {
     .message {
         padding: 2.5%;

@@ -69,7 +69,8 @@ export default {
 
 .description {
     margin: 1.8vh;
-    color: var(--font-color)
+    color: var(--font-color);
+    word-break: break-word;
 }
 
 @media (max-width: 576px) {
