@@ -34,7 +34,7 @@ export default {
                     username: this.getUsername(),
                     uuid: this.user.uuid,
                     settings: {
-                        darkmode: false,
+                        darkmode: !!this.user.theme,
                     },
                 },
                 groups: this.getGroups(),

@@ -14,7 +14,7 @@ class SettingsController extends Controller
         $teams = $user->allTeams()->where("personal_team", 0);
         $groups = UtilController::formatGroupsEloquentCollection($user, $teams);
 
-        return Inertia::render("Events/Events", [
+        return Inertia::render("Settings/Settings", [
             "user" => $user,
             "groups" => $groups,
         ]);

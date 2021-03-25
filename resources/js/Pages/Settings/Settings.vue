@@ -48,7 +48,7 @@
                                             v-if="!nameInputActive"
                                             @click="nameInputActive = true;emailInputActive = false;"
                                         >
-                                            <i class="fas fa-pen" />
+                                            <i class="fas fa-pen"/>
                                         </div>
                                     </Transition>
                                 </div>
@@ -230,7 +230,13 @@ export default {
     },
     methods: {
         toggleDarkmode() {
-            this.$store.commit("toggleDarkmode");
+            console.log(this.darkmode)
+            axios.patch(route("user.update.theme"), {
+                theme: !this.darkmode,
+            }).then((res) => {
+                console.log(res);
+                this.$inertia.visit(route("settings.show"));
+            });
         },
         deleteAccount() {
             axios.post(route("user.delete")).then((response) => {
@@ -256,7 +262,14 @@ export default {
                 .patch(route("user.update.name"), {
                     name: this.username,
                 })
-                .then((res) => console.log(res));
+                .then((res) => {
+                    this.$inertia.visit(route("settings.show"));
+                    this.$store.commit("setPopupMessage", {message: "Benutzername geändert!"});
+                    setTimeout(() => {
+                        this.$store.commit("setPopupMessage", {message: ""});
+                    }, 1500)
+                    console.log(res)
+                });
         },
         changeUsermail() {
             this.emailInputActive = false;
@@ -266,6 +279,11 @@ export default {
                 })
                 .then((res) => {
                     console.log(res);
+                    this.$inertia.visit(route("settings.show"));
+                    this.$store.commit("setPopupMessage", {message: "E-Mail geändert!"});
+                    setTimeout(() => {
+                        this.$store.commit("setPopupMessage", {message: ""});
+                    }, 1500)
                     /*
                     axios.post(route("logout")).then((res) => {
                       console.log(res);
@@ -278,12 +296,7 @@ export default {
             this.emailInputActive = false;
             this.usermail = this.user.email
         },
-        changeTheme() {
-            axios.patch(route("user.update.theme"), {
-                theme: this.darkmode,
-            });
-        },
-    },
+    }
 };
 </script>
 
