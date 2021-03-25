@@ -9,7 +9,7 @@
                     </div>
                 </div>
                 <div id="events-container">
-                    <event v-for="event in events" :key="event.date+event.name" :event="event"/>
+                    <event v-for="event in events" v-if="event" :key="event.date+event.name" :event="event"/>
                 </div>
                 <div
                     class="round-btn primary-background"
@@ -47,12 +47,20 @@ export default {
         return {
             bus: new Vue(),
             events: [],
-            active: false
+            active: false,
+            filters: {
+                validGroups: undefined,
+                validDates: [],
+                showPastEvents: false
+            }
         };
     },
     created() {
         this.bus.$on("toggleFilters", () => {
             this.active = !this.active
+        })
+        this.bus.$on("filtersChanged", (filters) => {
+            this.filters = filters
         })
         axios.get(route("user.events")).then(res => {
             res.data.forEach(events => {
@@ -69,6 +77,9 @@ export default {
         toggleFilters() {
             this.bus.$emit("toggleFilters");
         },
+        filter(event) {
+            return true;
+        }
     },
 };
 </script>
@@ -124,6 +135,11 @@ export default {
 }
 
 @media (max-width: 576px) {
+    #events-content.active {
+        width: 100vw;
+        transform: translateX(-100%);
+    }
+
     .title {
         display: none;
     }

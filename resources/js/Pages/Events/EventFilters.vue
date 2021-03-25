@@ -12,14 +12,14 @@
         </div>
         <label class="checkbox-container">
             Vergangene Termine anzeigen
-            <input type="checkbox" name="push-msg" value="push-msg">
+            <input type="checkbox" @change="updateFilters" v-model="filters.showPastEvents">
             <span class="checkbox"></span>
         </label>
         <div class="section-header">Gruppe</div>
-        <select class="alternate-input">
-            <option>Alle</option>
-            <option v-for="group in Object.values($store.getters.getGroups)">
-                {{group.name}}
+        <select class="alternate-input" @change="updateFilters" v-model="filters.validGroups">
+            <option :value="undefined">Alle</option>
+            <option v-for="group in Object.values($store.getters.getGroups)" :value="group.url">
+                {{ group.name }}
             </option>
         </select>
     </div>
@@ -36,7 +36,12 @@ export default {
     },
     data() {
         return {
-            active: false
+            active: false,
+            filters: {
+                validGroups: undefined,
+                validDates: [],
+                showPastEvents: false
+            }
         }
     },
     created() {
@@ -45,11 +50,15 @@ export default {
         })
     },
     methods: {
+        updateFilters() {
+            this.bus.$emit("filtersChanged", this.filters)
+        },
         toggleActive() {
             this.bus.$emit("toggleFilters");
         },
-        saveDate() {
-
+        saveDate(dates) {
+            this.filters.validDates = dates.dates
+            this.updateFilters()
         }
     }
 }
@@ -66,7 +75,7 @@ export default {
     height: 100%;
     color: var(--font-color);
     overflow: hidden;
-    z-index: 100;
+    z-index: 35;
     background-color: var(--background-color);
     box-shadow: 1px 0px 15px 3px var(--shadow-color);
     -webkit-box-shadow: 1px 0px 15px 3px var(--shadow-color);
@@ -135,12 +144,14 @@ export default {
         height: 100%;
         padding: 2vh;
     }
+
     #filters {
         position: absolute;
         width: 100%;
-        height: 0;
+        height: 100%;
         box-shadow: none;
     }
+
     #filters-header {
         margin-top: 2.5vh;
     }
@@ -156,17 +167,22 @@ export default {
     #filters-header {
         margin-top: 1vh;
     }
+
     #filters.active {
         position: absolute;
+        top: 20vw;
         width: 100%;
-        height: 100%;
+        height: calc(100vh - 20vw);
         padding: 2vh;
     }
+
     #filters {
         position: absolute;
+        top: 20vw;
         width: 100%;
-        height: 0;
+        height: calc(100vh - 20vw);
         box-shadow: none;
+        padding: 2vh;
     }
 }
 

@@ -29,11 +29,21 @@ class EventController extends Controller
         $event = Event::create([
             "name" => $request->name,
             "date" => Carbon::parse($request->date),
-            "team_id" => $team->id
+            "description" => $request->description,
+            "team_id" => $team->id,
+            "team_url" => $this->urlFormat($team->name),
+            "team_name" => $team->name,
         ]);
         $event->team()->associate($team);
 
-        return $event;
+        return [
+            "name" => $event->name,
+            "date" => $event->date,
+            "description" => $event->description,
+            "team_id" => $team->id,
+            "team_url" => $team->url,
+            "team_name" => $team->name
+        ];
     }
 
     function user_events()
@@ -48,6 +58,12 @@ class EventController extends Controller
         }
 
         return $events;
+    }
+
+    function urlFormat($name)
+    {
+        $name = strtolower($name);
+        return str_replace(" ", "-", $name);
     }
 
     function group_events($url)
