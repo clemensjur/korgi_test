@@ -138,6 +138,12 @@ export default {
 
     #events-container {
         margin-top: 0;
+        overflow: visible;
+        height: auto;
+    }
+    #events-content {
+        overflow: auto;
+        padding-bottom: 2vh;
     }
 }
 
