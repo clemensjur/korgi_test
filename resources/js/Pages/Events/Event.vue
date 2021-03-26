@@ -1,7 +1,7 @@
 <template>
     <div class="event">
         <div class="date">
-            <div class="date-text">{{event.date.toLocaleDateString('de')}}</div>
+            <div class="date-text">{{new Date(parseInt(event.date)).toLocaleDateString('de')}}</div>
             <div class="group">{{ event.team_name }}</div>
         </div>
         <div class="subject">{{ event.name }}</div>
