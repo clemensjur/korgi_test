@@ -70,16 +70,4 @@ class User extends Authenticatable //implements MustVerifyEmail
         Log::info($this->teams);
         return $this->teams()->events;
     }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::updating(function (User $user) {
-            if (in_array('email', $user->getChanges())) {
-                $user->email_verified_at = null;
-                $user->sendEmailVerificationNotification();
-            }
-        });
-    }
 }
