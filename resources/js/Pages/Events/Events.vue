@@ -171,6 +171,7 @@ export default {
 
     #events-content {
         overflow: auto;
+        padding-bottom: 2vh;
     }
 
     .title {
@@ -188,7 +189,6 @@ export default {
     #events-container {
         margin-top: 0;
         height: auto;
-        padding-bottom: 2vh;
         overflow: visible;
     }
 }
