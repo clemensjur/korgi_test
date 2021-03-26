@@ -9,7 +9,7 @@
                 :message="message"/>
             <file v-if="message.message.messageType === 'file'" :group="group" :message="message"
                   v-on:open="(payload) => messageReplyBus.$emit('open', payload)"/>
-            <event-announcement v-if="message.message.messageType === 'eventAnnouncement'" :message="message"/>
+            <event-announcement :bus="readConfirmationBus" v-if="message.message.messageType === 'eventAnnouncement'" :message="message"/>
             <poll v-if="message.message.messageType === 'poll'" :message="message" :group="group"/>
             <message-reply v-if="message.message.messageType === 'reply'" :message="message"
                            v-on:open="(payload) => messageReplyBus.$emit('open', payload)"></message-reply>

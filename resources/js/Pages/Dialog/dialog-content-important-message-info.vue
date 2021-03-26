@@ -1,5 +1,5 @@
 <template>
-    <div class="important-message-info">
+    <div class="important-message-info" v-if="this.message">
         <div class="subject">{{message.message.subject}}</div>
         <div class="text">{{message.message.text}}</div>
         <div class="read-by-container">

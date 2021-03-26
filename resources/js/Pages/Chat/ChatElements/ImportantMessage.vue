@@ -12,7 +12,7 @@
                 Gelesen
                 <input type="checkbox" @click="sendReadConfirmation"
                        :checked="Object.keys(message.message.readBy).includes($store.state.pubnub.getUUID())">
-                <span class="checkbox" :class="{'diabled' : disabled}"></span>
+                <span class="checkbox" :class="{'disabled' : disabled}"></span>
             </label>
         </div>
         <div class="timetoken">{{

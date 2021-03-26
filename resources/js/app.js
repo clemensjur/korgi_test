@@ -265,6 +265,7 @@ const store = new Vuex.Store({
                         group: payload.group,
                         groupId: payload.groupId,
                         chat: payload.chat,
+                        readBy: {},
                         messageType: "eventAnnouncement"
                     }
                 })

@@ -3,12 +3,21 @@
         <div class="sender" v-if="!isOwn">{{ message.message.user.username }}</div>
         <div class="message-header">
             <div class="subject">{{ message.message.subject }}</div>
-            <i class="fas fa-info-circle" @click="bus.$emit('open')"></i>
+            <i class="fas fa-info-circle" v-if="isOwn" @click="bus.$emit('open', message)"></i>
         </div>
         <div class="date"><span style="font-weight: bold">Datum:</span> {{ weekdayNames[date.getDay()] }},
             {{ date.toLocaleDateString('de') }}
         </div>
         <div class="text">{{ message.message.text }}</div>
+        <div class="row space-between">
+            <label class="row flex-start checkbox-container" v-if="!isOwn"
+                   :class="{'disabled': Object.keys(message.message.readBy).includes($store.state.pubnub.getUUID())}">
+                Gelesen
+                <input type="checkbox" @click="sendReadConfirmation"
+                       :checked="Object.keys(message.message.readBy).includes($store.state.pubnub.getUUID())">
+                <span class="checkbox" :class="{'disabled' : disabled}"></span>
+            </label>
+        </div>
         <div class="timetoken">{{
                 new Date(message.timetoken / 10000).toLocaleTimeString('de', {
                     hour: "2-digit",
@@ -25,10 +34,12 @@ export default {
     data() {
         return {
             weekdayNames: ["Sonntag", "Montag", 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+            disabled: false
         }
     },
     props: {
-        message: Object
+        message: Object,
+        bus: Object
     },
     computed: {
         isOwn() {
@@ -43,14 +54,19 @@ export default {
             if (this.isOwn) {
                 return 'right';
             }
+        },
+        sendReadConfirmation() {
+            if (!this.disabled) {
+                this.$store.commit("publishReadConfirmation", {
+                    message: this.message
+                })
+                this.disabled = true;
+            }
         }
     }, created() {
-        // this.$store.commit("addEvent", {
-        //     subject: this.message.message.subject,
-        //     text: this.message.message.text,
-        //     date: this.message.message.date,
-        //     group: this.message.message.group
-        // });
+        if (Object.keys(this.message.message.readBy).includes(this.$store.state.pubnub.getUUID())) {
+            this.disabled = true;
+        }
     }
 }
 </script>
@@ -118,6 +134,10 @@ export default {
 
 .right {
     background-color: var(--message-right-color);
+}
+
+.disabled {
+    pointer-events: none;
 }
 
 .right .subject {

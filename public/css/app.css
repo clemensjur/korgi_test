@@ -33004,10 +33004,6 @@ html.darkmode {
   cursor: pointer;
 }
 
-span {
-  all: initial;
-}
-
 .checkbox-container input,
 .checkbox-container input {
   opacity: 0;
