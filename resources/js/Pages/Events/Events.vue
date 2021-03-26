@@ -73,10 +73,10 @@ export default {
 
         }).then(() => {
             this.events.sort((e1, e2) => {
-                if (e1.date.getTime() > e2.date.getTime()) {
+                if (parseInt(e1.date) > parseInt(e2.date)) {
                     return 1;
                 }
-                if (e1.date.getTime() === e2.date.getTime()) {
+                if (parseInt(e1.date) === parseInt(e2.date)) {
                     return 0;
                 }
                 return -1;
