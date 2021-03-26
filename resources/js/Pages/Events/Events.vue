@@ -69,7 +69,6 @@ export default {
                     this.events.push(event)
                 })
             })
-
         }).then(() => {
             this.events.sort((e1, e2) => {
                 if (e1.date.getTime() > e2.date.getTime()) {
