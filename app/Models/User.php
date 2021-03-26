@@ -32,7 +32,7 @@ class User extends Authenticatable //implements MustVerifyEmail
         'password',
         'uuid',
         'google_id',
-        'darkmode'
+        'theme'
     ];
 
     /**
