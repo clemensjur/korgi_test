@@ -51,13 +51,20 @@ export default {
     font-size: 1.5rem;
     margin: 1vh 1.8vh 1vh 1.8vh;
     color: white;
-    font-weight: 800;
+    font-weight: 700;
+}
+
+.group {
+    font-size: 1.5rem;
+    margin: 1vh 1.8vh 1vh 1.8vh;
+    color: white;
+    font-weight: 700;
 }
 
 .subject {
     margin-left: 1.8vh;
     margin-top: 1.8vh;
-    font-weight: 800;
+    font-weight: 700;
     font-size: 1.3rem;
     color: var(--font-color)
 }

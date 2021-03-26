@@ -406,6 +406,17 @@ export default {
     cursor: pointer;
 }
 
+.link-container button {
+    text-decoration: underline;
+    margin-right: 4%;
+    margin-top: 5%;
+}
+
+.link-container button:focus {
+    outline: 0;
+    border: none;
+}
+
 #messages .flex-item-container input,
 #presentation .flex-item-container input {
     opacity: 0;
