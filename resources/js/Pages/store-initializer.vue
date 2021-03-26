@@ -15,6 +15,12 @@ export default {
             messages: [],
         };
     },
+    mounted() {
+        if (this.$store.state.user.settings.darkmode) {
+            let root = document.documentElement;
+            root.classList.add("darkmode");
+        }
+    },
     created() {
         console.log("user:", this.user)
         console.log("groups:", this.groups)
