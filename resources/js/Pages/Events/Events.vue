@@ -169,6 +169,10 @@ export default {
         transform: translateX(-100%);
     }
 
+    #events-content {
+        overflow: auto;
+    }
+
     .title {
         display: none;
     }
@@ -183,6 +187,9 @@ export default {
 
     #events-container {
         margin-top: 0;
+        height: auto;
+        padding-bottom: 2vh;
+        overflow: visible;
     }
 }
 

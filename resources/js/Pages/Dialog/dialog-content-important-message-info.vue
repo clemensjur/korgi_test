@@ -81,6 +81,7 @@ export default {
 .text {
     margin-bottom: 0.5rem;
     word-break: break-word;
+    color: var(--font-color);
 }
 
 .read-by-container {
@@ -88,6 +89,7 @@ export default {
     flex-direction: column;
     height: 20vh;
     overflow: auto;
+    color: var(--font-color);
 }
 
 .read-by-header {
@@ -99,5 +101,12 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    color: var(--font-color);
+}
+.username {
+    color: var(--font-color);
+}
+.time {
+    color: var(--font-color);
 }
 </style>
