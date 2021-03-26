@@ -1,5 +1,5 @@
 <template>
-    <page-layout :groups="groups" :user="user">
+    <page-layout :user="user" :groups="groups">
         <div id="events">
             <div id="events-content" :class="{ active: active }">
                 <div class="events-header">
@@ -56,8 +56,6 @@ export default {
         };
     },
     created() {
-        console.log("Events.vue user:", this.user)
-        console.log("Events.vue groups:", this.groups)
         this.bus.$on("toggleFilters", () => {
             this.active = !this.active
         })
@@ -65,18 +63,19 @@ export default {
             this.filters = filters
         })
         axios.get(route("user.events")).then(res => {
-            let events = res.data[1];
-            console.log(events);
-            events.forEach(event => {
-                this.events.push(event)
+            res.data.forEach(events => {
+                events.forEach(event => {
+                    event.date = new Date(parseInt(event.date));
+                    this.events.push(event)
+                })
             })
 
         }).then(() => {
             this.events.sort((e1, e2) => {
-                if (parseInt(e1.date) > parseInt(e2.date)) {
+                if (e1.date.getTime() > e2.date.getTime()) {
                     return 1;
                 }
-                if (parseInt(e1.date) === parseInt(e2.date)) {
+                if (e1.date.getTime() === e2.date.getTime()) {
                     return 0;
                 }
                 return -1;
@@ -185,12 +184,6 @@ export default {
 
     #events-container {
         margin-top: 0;
-        overflow: visible;
-        height: auto;
-    }
-    #events-content {
-        overflow: auto;
-        padding-bottom: 2vh;
     }
 }
 
