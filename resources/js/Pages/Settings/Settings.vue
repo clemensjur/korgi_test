@@ -230,9 +230,9 @@ export default {
     },
     methods: {
         toggleDarkmode() {
-            console.log(!this.darkmode)
+            console.log(this.darkmode)
             axios.patch(route("user.update.theme"), {
-                theme: 1,
+                theme: !this.darkmode,
             }).then((res) => {
                 console.log(res);
                 this.$inertia.visit(route("settings.show"));
